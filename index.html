@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Eight28 Records — Label OS v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+
+:root{
+  --accent:#0078d4;
+  --gold:#c8a44a;
+  --gold-bg:rgba(200,164,74,0.10);
+  --gold-br:rgba(200,164,74,0.28);
+  --glass:rgba(241,244,248,0.88);
+  --glass-br:rgba(0,0,0,0.10);
+  --winbody:rgba(247,249,251,0.97);
+  --t1:#1a1a1a;
+  --t2:#565656;
+  --t3:#999;
+  --div:rgba(0,0,0,0.07);
+  --card:rgba(255,255,255,0.75);
+  --hover:rgba(0,0,0,0.04);
+  --sel:rgba(0,120,212,0.10);
+  --sel-br:rgba(0,120,212,0.22);
+  --tbh:50px;
+  --sbw:200px;
+}
+
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Syne',sans-serif;}
+
+/* ── DESKTOP ── */
+#desktop{
+  width:100vw;height:100vh;position:relative;overflow:hidden;
+  background:radial-gradient(ellipse 110% 90% at 50% 40%,#0060c0 0%,#003d8a 55%,#001a5a 100%);
+}
+canvas#bg{position:absolute;inset:0;z-index:0;opacity:.5;}
+
+/* ── DESKTOP ICONS ── */
+.desk-icons{
+  position:absolute;top:16px;left:16px;z-index:10;
+  display:flex;flex-direction:column;gap:4px;
+}
+.di{
+  width:76px;padding:10px 6px 8px;border-radius:8px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
+  cursor:pointer;transition:background .14s;
+}
+.di:hover{background:rgba(255,255,255,0.15);}
+.di.sel{background:rgba(255,255,255,0.22);outline:1px solid rgba(255,255,255,0.38);}
+.di-img{
+  width:46px;height:46px;border-radius:11px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:900;
+  box-shadow:0 4px 14px rgba(0,0,0,0.28);
+}
+.di-lbl{font-size:10px;color:#fff;text-align:center;line-height:1.25;font-weight:600;text-shadow:0 1px 5px rgba(0,0,0,.7);}
+
+/* ── TASKBAR ── */
+#taskbar{
+  position:fixed;bottom:0;left:0;right:0;height:var(--tbh);
+  background:rgba(16,16,22,0.92);
+  backdrop-filter:blur(48px) saturate(180%);
+  border-top:1px solid rgba(255,255,255,0.07);
+  z-index:2000;display:flex;align-items:center;
+}
+.tb-l{padding:0 10px;display:flex;align-items:center;}
+.tb-c{flex:1;display:flex;align-items:center;justify-content:center;gap:3px;}
+.tb-r{padding:0 14px;display:flex;align-items:center;gap:10px;}
+.tb-start{
+  width:38px;height:38px;border-radius:7px;border:none;
+  background:transparent;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .14s;
+}
+.tb-start:hover,.tb-start.on{background:rgba(255,255,255,0.09);}
+.wgrid{display:grid;grid-template-columns:1fr 1fr;gap:2.5px;width:15px;height:15px;}
+.wsq{background:#fff;border-radius:1px;}
+.tb-btn{
+  width:42px;height:42px;border-radius:7px;border:none;
+  background:transparent;cursor:pointer;font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  position:relative;transition:background .14s;
+}
+.tb-btn:hover{background:rgba(255,255,255,0.08);}
+.tb-btn.run::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:5px;height:3px;border-radius:1.5px;background:rgba(255,255,255,0.35);}
+.tb-btn.cur::after{background:var(--gold);width:14px;}
+.tb-clock{text-align:right;cursor:default;}
+.tb-time{font-family:'DM Mono',monospace;font-size:12px;color:#fff;line-height:1.2;}
+.tb-date{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,0.5);}
+.tb-sys{display:flex;gap:6px;align-items:center;font-size:12px;opacity:.6;cursor:default;}
+
+/* ── WINDOW BASE ── */
+.win{
+  position:absolute;
+  background:var(--glass);
+  backdrop-filter:blur(60px) saturate(200%);
+  border:1px solid var(--glass-br);
+  border-radius:10px;
+  box-shadow:0 12px 48px rgba(0,0,0,0.24),inset 0 0 0 1px rgba(255,255,255,0.55);
+  display:none;flex-direction:column;overflow:hidden;
+  min-width:300px;
+  max-height:calc(100vh - var(--tbh) - 20px);
+  z-index:100;
+}
+.win.open{display:flex;animation:popIn .22s cubic-bezier(.2,0,0,1);}
+.win.focused{z-index:200;box-shadow:0 20px 64px rgba(0,0,0,0.30),inset 0 0 0 1px rgba(255,255,255,0.6);}
+@keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+
+/* Win title bar */
+.wbar{
+  height:36px;display:flex;align-items:center;
+  padding:0 0 0 14px;cursor:move;flex-shrink:0;
+  background:rgba(255,255,255,0.42);
+  border-bottom:1px solid rgba(0,0,0,0.06);
+  position:relative;
+}
+.wbar-ico{font-size:14px;margin-right:8px;}
+.wbar-ttl{font-size:12px;font-weight:600;color:var(--t1);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.wbtns{display:flex;}
+.wb{width:46px;height:36px;border:none;background:transparent;cursor:pointer;color:var(--t1);display:flex;align-items:center;justify-content:center;transition:background .1s;}
+.wb:hover{background:rgba(0,0,0,0.07);}
+.wb.x:hover{background:#c42b1c;color:#fff;}
+.wb svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;}
+
+/* ══════════════════════════════════════
+   EXPLORER WINDOW
+══════════════════════════════════════ */
+#win-explorer{width:900px;top:50px;left:80px;}
+
+/* Explorer toolbar */
+.exp-tb{
+  display:flex;align-items:center;gap:6px;
+  padding:6px 10px;
+  background:rgba(255,255,255,0.38);
+  border-bottom:1px solid var(--div);
+  flex-shrink:0;
+}
+.exp-nav{
+  width:28px;height:28px;border-radius:5px;border:none;
+  background:transparent;cursor:pointer;color:var(--t2);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .12s;
+}
+.exp-nav:hover{background:rgba(0,0,0,0.07);}
+.exp-nav:disabled{opacity:.3;cursor:default;}
+.exp-nav svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.exp-addr{
+  flex:1;height:28px;
+  background:rgba(255,255,255,0.8);
+  border:1px solid rgba(0,0,0,0.1);border-radius:5px;
+  display:flex;align-items:center;padding:0 10px;gap:4px;
+  font-size:12px;color:var(--t2);overflow:hidden;
+}
+.exp-addr-crumb{display:flex;align-items:center;gap:3px;white-space:nowrap;}
+.exp-crumb-part{
+  font-size:11px;font-weight:600;color:var(--t2);cursor:pointer;
+  padding:2px 4px;border-radius:3px;transition:background .12s;
+}
+.exp-crumb-part:hover{background:rgba(0,0,0,0.07);}
+.exp-crumb-sep{font-size:10px;color:var(--t3);}
+
+.exp-search-box{
+  display:flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.8);border:1px solid rgba(0,0,0,0.1);
+  border-radius:5px;padding:0 10px;height:28px;width:160px;
+}
+.exp-search-box span{font-size:11px;color:var(--t3);}
+.exp-search-box input{
+  border:none;background:transparent;outline:none;
+  font-size:11px;font-family:'Syne',sans-serif;color:var(--t1);width:100%;
+}
+.exp-search-box input::placeholder{color:var(--t3);}
+
+/* Explorer body = sidebar + pane */
+.exp-body{display:flex;flex:1;overflow:hidden;}
+
+/* Sidebar */
+.exp-sb{
+  width:var(--sbw);flex-shrink:0;
+  background:rgba(255,255,255,0.28);
+  border-right:1px solid var(--div);
+  overflow-y:auto;padding:8px 0;
+}
+.exp-sb::-webkit-scrollbar{width:3px;}
+.exp-sb::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.1);border-radius:2px;}
+
+.sb-group{
+  padding:10px 14px 4px;
+  font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
+  color:var(--t3);letter-spacing:.1em;text-transform:uppercase;
+}
+.sb-item{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 14px;font-size:12px;font-weight:600;
+  color:var(--t2);cursor:pointer;
+  border-radius:0;transition:background .12s;
+  border-left:2px solid transparent;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.sb-item span{font-size:14px;flex-shrink:0;}
+.sb-item:hover{background:rgba(0,0,0,0.04);}
+.sb-item.active{
+  background:var(--sel);color:var(--accent);
+  border-left-color:var(--accent);
+}
+
+/* Main pane */
+.exp-pane{
+  flex:1;overflow-y:auto;
+  background:var(--winbody);
+}
+.exp-pane::-webkit-scrollbar{width:3px;}
+.exp-pane::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.12);border-radius:2px;}
+
+/* ── VIEW: HOME ── */
+.view-home{}
+.home-banner{
+  padding:28px 28px 22px;
+  background:linear-gradient(135deg,rgba(0,120,212,0.07) 0%,transparent 55%);
+  border-bottom:1px solid var(--div);
+}
+.home-logo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px;}
+.home-logo{
+  width:52px;height:52px;border-radius:12px;
+  background:var(--gold);display:flex;align-items:center;justify-content:center;
+  font-size:24px;font-weight:900;color:#000;
+  box-shadow:0 6px 18px rgba(200,164,74,0.36);
+}
+.home-name{font-size:19px;font-weight:800;color:var(--t1);line-height:1.1;}
+.home-tag{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);margin-top:2px;letter-spacing:.04em;}
+.home-title{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(22px,3.5vw,36px);font-weight:400;font-style:italic;
+  line-height:1.05;color:var(--t1);margin-bottom:8px;
+}
+.home-title strong{font-style:normal;color:var(--accent);}
+.home-desc{font-family:'DM Mono',monospace;font-size:11px;color:var(--t2);line-height:1.75;max-width:500px;margin-bottom:14px;}
+.home-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.hpill{border:1px solid var(--div);border-radius:4px;padding:3px 10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--t2);background:rgba(0,0,0,0.03);}
+.hpill.g{border-color:var(--gold-br);color:#7a5c18;background:var(--gold-bg);}
+
+.home-stats{display:flex;border-top:1px solid var(--div);background:rgba(0,0,0,0.015);}
+.hstat{flex:1;padding:12px 16px;border-right:1px solid var(--div);}
+.hstat:last-child{border-right:none;}
+.hstat-n{font-family:'Instrument Serif',serif;font-size:26px;color:var(--accent);line-height:1;}
+.hstat-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-top:2px;}
+
+/* Folder grid */
+.folder-section{padding:18px 20px 8px;}
+.folder-section-lbl{font-size:11px;font-weight:700;color:var(--t2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;}
+.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:20px;}
+
+.folder-item{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:14px 8px 10px;border-radius:8px;
+  cursor:pointer;transition:background .13s;
+  border:1px solid transparent;
+}
+.folder-item:hover{background:var(--sel);border-color:var(--sel-br);}
+.folder-item.sel{background:var(--sel);border-color:var(--sel-br);}
+.fi-ico{
+  width:52px;height:44px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:36px;position:relative;
+}
+/* Folder icon shape */
+.fi-ico.folder::before{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:32px;border-radius:2px 6px 6px 6px;
+}
+.fi-ico.folder::after{
+  content:'';
+  position:absolute;
+  top:8px;left:0;
+  width:48%;height:10px;
+  border-radius:4px 4px 0 0;
+}
+.fi-folder-art{
+  position:relative;width:52px;height:44px;
+  display:flex;align-items:flex-end;justify-content:center;
+}
+.fi-folder-back{
+  position:absolute;bottom:0;left:0;right:0;height:32px;
+  border-radius:2px 6px 6px 6px;
+}
+.fi-folder-tab{
+  position:absolute;top:7px;left:0;
+  width:50%;height:10px;
+  border-radius:4px 4px 0 0;
+}
+.fi-folder-inner{
+  position:absolute;bottom:4px;
+  width:38px;height:20px;border-radius:3px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;
+}
+.fi-name{font-size:11px;font-weight:700;color:var(--t1);text-align:center;line-height:1.25;}
+.fi-meta{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);text-align:center;}
+
+/* ── VIEW: FOLDER (Artists / Releases sub-folder) ── */
+.view-folder{}
+.folder-header{
+  display:flex;align-items:center;gap:14px;
+  padding:20px 22px;border-bottom:1px solid var(--div);
+  background:linear-gradient(135deg,rgba(0,0,0,0.02),transparent);
+}
+.fh-ico{font-size:36px;}
+.fh-name{font-size:18px;font-weight:800;color:var(--t1);}
+.fh-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);margin-top:2px;}
+.folder-contents{padding:16px 20px;}
+
+/* ── VIEW: ARTIST ── */
+.artist-view{}
+.av-hero{
+  height:190px;position:relative;
+  display:flex;align-items:flex-end;overflow:hidden;
+}
+.av-hero-bg{position:absolute;inset:0;}
+.av-hero-glow{position:absolute;inset:0;}
+.av-hero-info{
+  position:relative;z-index:2;
+  padding:0 22px 18px;
+  background:linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 100%);
+  width:100%;
+}
+.av-badge{
+  display:inline-block;background:rgba(200,164,74,0.18);
+  border:1px solid var(--gold-br);color:var(--gold);
+  font-family:'DM Mono',monospace;font-size:9px;
+  padding:2px 9px;border-radius:3px;letter-spacing:.08em;margin-bottom:7px;
+}
+.av-name{font-size:22px;font-weight:800;color:#fff;line-height:1;}
+.av-role{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.5);margin-top:3px;}
+
+/* Stats strip */
+.av-stats{display:flex;border-bottom:1px solid var(--div);}
+.avs{flex:1;padding:11px 14px;border-right:1px solid var(--div);text-align:center;}
+.avs:last-child{border-right:none;}
+.avs-n{font-family:'Instrument Serif',serif;font-size:20px;color:var(--accent);line-height:1;}
+.avs-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);text-transform:uppercase;letter-spacing:.07em;margin-top:2px;}
+
+/* Tabs */
+.av-tabs{display:flex;border-bottom:1px solid var(--div);background:rgba(255,255,255,0.35);flex-shrink:0;overflow-x:auto;}
+.av-tab{
+  padding:10px 16px;font-size:12px;font-weight:700;color:var(--t2);
+  cursor:pointer;border-bottom:2px solid transparent;
+  transition:color .14s,border-color .14s;white-space:nowrap;
+}
+.av-tab:hover{color:var(--t1);}
+.av-tab.on{color:var(--accent);border-bottom-color:var(--accent);}
+.av-panel{display:none;}
+.av-panel.on{display:block;}
+
+/* Bio */
+.av-bio{padding:20px 22px;}
+.av-bio-txt{font-family:'DM Mono',monospace;font-size:11px;color:var(--t2);line-height:1.82;margin-bottom:14px;}
+.av-details{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px;}
+.av-detail{
+  display:flex;align-items:center;gap:7px;
+  background:var(--card);border:1px solid var(--div);border-radius:6px;padding:7px 11px;
+}
+.avd-ico{font-size:13px;}
+.avd-txt{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);}
+
+/* Discography */
+.av-disc{}
+.disc-row{
+  display:flex;align-items:center;gap:14px;
+  padding:14px 20px;border-bottom:1px solid var(--div);
+  cursor:pointer;transition:background .12s;
+}
+.disc-row:hover{background:var(--hover);}
+.disc-row:last-child{border-bottom:none;}
+.dr-cover{
+  width:46px;height:46px;border-radius:7px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;flex-shrink:0;
+}
+.dr-info{flex:1;min-width:0;}
+.dr-title{font-size:13px;font-weight:700;color:var(--t1);}
+.dr-meta{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);margin-top:1px;}
+.dr-tracks{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);margin-top:2px;}
+.dr-badge{
+  display:flex;flex-direction:column;align-items:flex-end;gap:4px;
+  flex-shrink:0;
+}
+.dr-type{font-family:'DM Mono',monospace;font-size:9px;color:var(--accent);border:1px solid rgba(0,120,212,0.2);border-radius:3px;padding:2px 7px;background:rgba(0,120,212,0.06);}
+.dr-story{font-size:8px;color:var(--accent);border:1px solid rgba(0,120,212,0.2);border-radius:3px;padding:1px 6px;background:rgba(0,120,212,0.06);}
+
+/* Tracks */
+.av-tracks{}
+.tr{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 20px;border-bottom:1px solid var(--div);
+  cursor:pointer;transition:background .12s,padding-left .12s;
+}
+.tr:hover{background:var(--hover);padding-left:24px;}
+.tr:last-child{border-bottom:none;}
+.tr-n{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);width:18px;text-align:right;flex-shrink:0;}
+.tr:hover .tr-n{color:var(--accent);}
+.tr-play{width:17px;height:17px;border-radius:50%;background:rgba(0,120,212,0.09);border:1px solid rgba(0,120,212,0.22);display:flex;align-items:center;justify-content:center;font-size:5px;color:var(--accent);opacity:0;transition:opacity .13s;}
+.tr:hover .tr-play{opacity:1;}
+.tr-name{flex:1;font-size:12px;font-weight:600;color:var(--t1);}
+.tr-album{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);}
+.tr-dur{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);}
+
+/* Links */
+.av-links{padding:14px 16px;display:flex;flex-direction:column;gap:7px;}
+.lnk{
+  display:flex;align-items:center;gap:12px;
+  background:var(--card);border:1px solid var(--div);border-radius:8px;
+  padding:11px 13px;cursor:pointer;transition:background .12s,border-color .12s;
+}
+.lnk:hover{background:var(--sel);border-color:var(--sel-br);}
+.lnk-ico{width:32px;height:32px;border-radius:7px;background:rgba(0,120,212,0.09);border:1px solid rgba(0,120,212,0.14);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+.lnk-t{flex:1;}
+.lnk-name{font-size:13px;font-weight:700;color:var(--t1);}
+.lnk-url{font-family:'DM Mono',monospace;font-size:10px;color:var(--t3);}
+.lnk-arr{font-size:13px;color:var(--t3);transition:color .12s,transform .12s;}
+.lnk:hover .lnk-arr{color:var(--accent);transform:translateX(2px);}
+
+/* ── START MENU ── */
+#smenu{
+  position:fixed;
+  bottom:calc(var(--tbh)+8px);left:50%;transform:translateX(-50%);
+  width:580px;max-width:calc(100vw - 24px);
+  background:rgba(236,240,246,0.95);
+  backdrop-filter:blur(60px) saturate(200%);
+  border:1px solid rgba(0,0,0,0.09);border-radius:14px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.22);
+  padding:20px 18px 16px;z-index:1900;display:none;
+}
+#smenu.on{display:block;animation:popIn .18s cubic-bezier(.2,0,0,1);}
+.sm-search{
+  width:100%;padding:8px 13px;
+  background:rgba(255,255,255,0.92);border:1px solid rgba(0,0,0,0.1);border-radius:6px;
+  font-size:13px;font-family:'Syne',sans-serif;color:var(--t1);
+  outline:none;margin-bottom:16px;
+  box-shadow:0 1px 4px rgba(0,0,0,0.06);
+  transition:border-color .14s,box-shadow .14s;
+}
+.sm-search:focus{border-color:var(--accent);box-shadow:0 0 0 2px rgba(0,120,212,0.18);}
+.sm-search::placeholder{color:var(--t3);}
+.sm-lbl{font-size:10px;font-weight:700;color:var(--t2);letter-spacing:.06em;text-transform:uppercase;margin-bottom:9px;}
+.sm-pins{display:grid;grid-template-columns:repeat(6,1fr);gap:3px;margin-bottom:14px;}
+.sm-pin{display:flex;flex-direction:column;align-items:center;gap:4px;padding:9px 4px 7px;border-radius:7px;cursor:pointer;transition:background .13s;}
+.sm-pin:hover{background:rgba(0,0,0,0.06);}
+.sm-pin-i{font-size:24px;}
+.sm-pin-l{font-size:9px;color:var(--t2);text-align:center;line-height:1.25;font-weight:600;}
+.sm-foot{display:flex;align-items:center;justify-content:space-between;padding-top:12px;border-top:1px solid var(--div);}
+.sm-user{display:flex;align-items:center;gap:9px;cursor:pointer;padding:5px 8px;border-radius:6px;transition:background .13s;}
+.sm-user:hover{background:rgba(0,0,0,0.05);}
+.sm-ava{width:28px;height:28px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:12px;color:#000;font-weight:800;}
+.sm-uname{font-size:13px;font-weight:700;color:var(--t1);}
+.sm-pwr{width:28px;height:28px;border-radius:6px;border:1px solid var(--div);background:rgba(0,0,0,0.03);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;transition:background .13s;}
+.sm-pwr:hover{background:rgba(196,43,28,0.1);}
+
+/* ── CONTEXT MENU ── */
+#ctxmenu{
+  position:fixed;background:rgba(236,240,246,0.97);
+  backdrop-filter:blur(40px);border:1px solid rgba(0,0,0,0.09);
+  border-radius:8px;padding:5px;min-width:180px;
+  box-shadow:0 8px 28px rgba(0,0,0,0.18);z-index:3000;display:none;
+}
+#ctxmenu.on{display:block;animation:popIn .12s ease;}
+.ctx-i{padding:7px 12px;border-radius:4px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:9px;color:var(--t1);transition:background .1s;}
+.ctx-i:hover{background:var(--hover);}
+.ctx-s{height:1px;background:var(--div);margin:3px 0;}
+
+/* ── BACKDROP (mobile) ── */
+#backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,30,0.45);backdrop-filter:blur(3px);z-index:290;}
+#backdrop.on{display:block;}
+
+/* ── STORY OVERLAY ── */
+#story-ov{
+  position:fixed;inset:0;z-index:3500;
+  background:rgba(0,10,30,0.70);
+  backdrop-filter:blur(12px) saturate(160%);
+  display:none;align-items:center;justify-content:center;padding:20px;
+}
+#story-ov.on{display:flex;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+#story-win{
+  background:rgba(244,246,250,0.98);
+  backdrop-filter:blur(60px);
+  border:1px solid rgba(0,0,0,0.10);
+  border-radius:14px;
+  box-shadow:0 32px 80px rgba(0,0,0,0.38);
+  width:100%;max-width:680px;max-height:88vh;
+  display:flex;flex-direction:column;overflow:hidden;
+  animation:popIn .24s cubic-bezier(.2,0,0,1);
+}
+#story-bar{display:flex;align-items:center;padding:0 14px;height:38px;flex-shrink:0;background:rgba(255,255,255,0.5);border-bottom:1px solid rgba(0,0,0,0.06);}
+#story-bar-ttl{flex:1;font-size:12px;font-weight:600;color:var(--t1);}
+#story-close{width:46px;height:38px;border:none;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--t1);border-radius:0 14px 0 0;transition:background .1s;}
+#story-close:hover{background:#c42b1c;color:#fff;}
+#story-close svg{width:10px;height:10px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;}
+#story-body{overflow-y:auto;flex:1;}
+#story-body::-webkit-scrollbar{width:3px;}
+#story-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,0.14);border-radius:2px;}
+
+.sh-hero{min-height:210px;position:relative;display:flex;align-items:flex-end;overflow:hidden;}
+.sh-bg{position:absolute;inset:0;}
+.sh-glow{position:absolute;inset:0;}
+.sh-art{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:80px;opacity:.16;animation:flt 6s ease-in-out infinite;}
+@keyframes flt{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.sh-info{position:relative;z-index:2;padding:0 26px 20px;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,transparent 100%);width:100%;}
+.sh-badge{display:inline-block;background:rgba(200,164,74,0.18);border:1px solid var(--gold-br);color:var(--gold);font-family:'DM Mono',monospace;font-size:9px;padding:2px 10px;border-radius:3px;letter-spacing:.1em;margin-bottom:8px;}
+.sh-title{font-family:'Instrument Serif',serif;font-size:clamp(24px,5vw,38px);font-weight:400;color:#fff;line-height:1.0;letter-spacing:-.01em;margin-bottom:5px;}
+.sh-meta{font-family:'DM Mono',monospace;font-size:10px;color:rgba(255,255,255,.5);}
+
+.ss{padding:24px 26px;border-bottom:1px solid var(--div);}
+.ss:last-child{border-bottom:none;}
+.ss-lbl{font-family:'DM Mono',monospace;font-size:9px;font-weight:500;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.ss-lbl::after{content:'';flex:1;height:1px;background:rgba(0,120,212,0.14);}
+.ss-narr{font-family:'Instrument Serif',serif;font-size:16px;font-style:italic;line-height:1.7;color:var(--t1);margin-bottom:12px;}
+.ss-body{font-family:'DM Mono',monospace;font-size:11px;color:var(--t2);line-height:1.85;}
+.ss-verse{background:linear-gradient(135deg,rgba(200,164,74,0.07),transparent);border-left:3px solid var(--gold);padding:14px 18px;border-radius:0 5px 5px 0;margin-top:12px;}
+.ss-verse-t{font-family:'Instrument Serif',serif;font-style:italic;font-size:14px;color:var(--t1);line-height:1.6;}
+.ss-verse-r{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);margin-top:6px;letter-spacing:.08em;}
+
+.st-list{display:flex;flex-direction:column;}
+.st{display:flex;gap:13px;padding:14px 0;border-bottom:1px solid var(--div);align-items:flex-start;}
+.st:last-child{border-bottom:none;}
+.st-num{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);font-weight:500;width:22px;flex-shrink:0;padding-top:1px;}
+.st-info{flex:1;}
+.st-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--t1);margin-bottom:3px;display:flex;align-items:baseline;gap:8px;}
+.st-dur{font-family:'DM Mono',monospace;font-size:9px;color:var(--t3);font-weight:400;}
+.st-meaning{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.06em;margin-bottom:4px;}
+.st-story{font-family:'DM Mono',monospace;font-size:10px;color:var(--t2);line-height:1.75;}
+
+.sc{display:flex;gap:7px;flex-wrap:wrap;}
+.sc-chip{background:rgba(0,0,0,0.04);border:1px solid var(--div);border-radius:4px;padding:6px 11px;}
+.sc-role{font-family:'DM Mono',monospace;font-size:8px;color:var(--t3);letter-spacing:.08em;text-transform:uppercase;}
+.sc-name{font-size:12px;font-weight:700;color:var(--t1);margin-top:1px;}
+
+/* ══ MOBILE ══ */
+@media(max-width:768px){
+  .desk-icons{flex-direction:row;flex-wrap:wrap;top:0;left:0;right:0;padding:8px;gap:2px;}
+  .di{width:68px;padding:8px 4px;}
+
+  .win{
+    position:fixed !important;
+    top:auto !important;bottom:var(--tbh) !important;
+    left:0 !important;right:0 !important;
+    width:100% !important;min-width:unset;
+    max-height:88vh;
+    border-radius:18px 18px 0 0 !important;
+    z-index:300 !important;
+    transform:translateY(100%);
+    transition:transform .3s cubic-bezier(.16,1,.3,1);
+    display:flex !important;
+  }
+  .win.open{transform:translateY(0);animation:none !important;}
+
+  .wbar{cursor:default;padding-top:16px;}
+  .wbar::before{content:'';position:absolute;top:7px;left:50%;transform:translateX(-50%);width:32px;height:4px;border-radius:2px;background:rgba(0,0,0,0.15);}
+  .wb:nth-child(2){display:none;}
+  .exp-pane{max-height:calc(88vh - 90px);overflow-y:auto;}
+
+  #win-explorer{width:100% !important;}
+  --sbw:160px;
+
+  #smenu{width:calc(100% - 18px);left:9px !important;transform:none !important;}
+  .sm-pins{grid-template-columns:repeat(4,1fr);}
+  .tb-sys{display:none;}
+
+  #story-ov{padding:0;align-items:flex-end;}
+  #story-win{border-radius:18px 18px 0 0;max-height:92vh;}
+  .ss{padding:18px 16px;}
+}
+@media(max-width:500px){
+  .exp-sb{display:none;}
+  #win-explorer{--sbw:0px;}
+  .folder-grid{grid-template-columns:repeat(auto-fill,minmax(100px,1fr));}
+}
+</style>
+</head>
+<body>
+<div id="desktop">
+<canvas id="bg"></canvas>
+
+<!-- Desktop icons -->
+<div class="desk-icons">
+  <div class="di" data-win="win-explorer">
+    <div class="di-img" style="background:linear-gradient(135deg,#c8a44a,#8c6010);">8</div>
+    <div class="di-lbl">Label HQ</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     EXPLORER WINDOW
+══════════════════════════════════ -->
+<div class="win open focused" id="win-explorer" style="width:920px;top:48px;left:80px;">
+  <div class="wbar" id="exp-bar">
+    <span class="wbar-ico" id="exp-ico">📁</span>
+    <span class="wbar-ttl" id="exp-ttl">Eight28 Records</span>
+    <div class="wbtns">
+      <button class="wb" onclick="minWin('win-explorer')"><svg viewBox="0 0 10 10"><line x1="0" y1="9" x2="10" y2="9"/></svg></button>
+      <button class="wb"><svg viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" rx="1"/></svg></button>
+      <button class="wb x" onclick="closeWin('win-explorer')"><svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg></button>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="exp-tb">
+    <button class="exp-nav" id="btn-back" onclick="navBack()" disabled title="Back">
+      <svg viewBox="0 0 16 16"><polyline points="10,3 5,8 10,13"/></svg>
+    </button>
+    <button class="exp-nav" id="btn-fwd" onclick="navFwd()" disabled title="Forward">
+      <svg viewBox="0 0 16 16"><polyline points="6,3 11,8 6,13"/></svg>
+    </button>
+    <button class="exp-nav" onclick="navTo('home')" title="Home">
+      <svg viewBox="0 0 16 16"><path d="M2 7L8 2l6 5v6a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>
+    </button>
+    <div class="exp-addr">
+      <div class="exp-addr-crumb" id="exp-crumb"></div>
+    </div>
+    <div class="exp-search-box">
+      <span>🔍</span>
+      <input type="text" placeholder="Search…" id="exp-search" oninput="expSearch(this.value)">
+    </div>
+  </div>
+
+  <!-- Body -->
+  <div class="exp-body">
+    <div class="exp-sb" id="exp-sb"></div>
+    <div class="exp-pane" id="exp-pane"></div>
+  </div>
+</div>
+
+<!-- BACKDROP -->
+<div id="backdrop" onclick="closeMobile()"></div>
+
+<!-- STORY OVERLAY -->
+<div id="story-ov" onclick="closeStoryOv(event)">
+  <div id="story-win">
+    <div id="story-bar">
+      <span id="story-bar-ttl">Album Story</span>
+      <button id="story-close" onclick="closeStory()">
+        <svg viewBox="0 0 10 10"><line x1="1" y1="1" x2="9" y2="9"/><line x1="9" y1="1" x2="1" y2="9"/></svg>
+      </button>
+    </div>
+    <div id="story-body"></div>
+  </div>
+</div>
+
+<!-- TASKBAR -->
+<div id="taskbar">
+  <div class="tb-l">
+    <button class="tb-start" id="smBtn" onclick="toggleStart()">
+      <div class="wgrid"><div class="wsq"></div><div class="wsq"></div><div class="wsq"></div><div class="wsq"></div></div>
+    </button>
+  </div>
+  <div class="tb-c">
+    <button class="tb-btn cur" onclick="bringWin('win-explorer')">
+      <span style="font-size:14px;font-weight:900;color:var(--gold);font-family:'Syne',sans-serif;">8</span>
+    </button>
+  </div>
+  <div class="tb-r">
+    <div class="tb-sys">🔊 📶 🔋</div>
+    <div class="tb-clock">
+      <div class="tb-time" id="tbTime">--:--</div>
+      <div class="tb-date" id="tbDate">---</div>
+    </div>
+  </div>
+</div>
+
+<!-- START MENU -->
+<div id="smenu">
+  <input class="sm-search" type="text" placeholder="Search artists, releases…">
+  <div class="sm-lbl">Quick Access</div>
+  <div class="sm-pins">
+    <div class="sm-pin" onclick="navTo('home');toggleStart()">
+      <div class="sm-pin-i" style="width:36px;height:36px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#000;font-weight:900;">8</div>
+      <div class="sm-pin-l">Label HQ</div>
+    </div>
+    <div class="sm-pin" onclick="navTo('folder-artists');toggleStart()">
+      <div class="sm-pin-i">📂</div><div class="sm-pin-l">Artists</div>
+    </div>
+    <div class="sm-pin" onclick="navTo('artist-lsd');toggleStart()">
+      <div class="sm-pin-i">🎵</div><div class="sm-pin-l">LilSaintDenzel</div>
+    </div>
+    <div class="sm-pin" onclick="navTo('artist-ps');toggleStart()">
+      <div class="sm-pin-i">✦</div><div class="sm-pin-l">PantaSynergy</div>
+    </div>
+    <div class="sm-pin" onclick="navTo('folder-releases');toggleStart()">
+      <div class="sm-pin-i">💿</div><div class="sm-pin-l">Releases</div>
+    </div>
+    <div class="sm-pin" onclick="openStory('concordia');toggleStart()">
+      <div class="sm-pin-i">📖</div><div class="sm-pin-l">Concordia</div>
+    </div>
+  </div>
+  <div class="sm-foot">
+    <div class="sm-user"><div class="sm-ava">L</div><div class="sm-uname">LilSaintDenzel</div></div>
+    <div class="sm-pwr">⏻</div>
+  </div>
+</div>
+
+<!-- CONTEXT MENU -->
+<div id="ctxmenu">
+  <div class="ctx-i" onclick="navTo('home');closeCtx()">🏠 Label HQ</div>
+  <div class="ctx-i" onclick="navTo('folder-artists');closeCtx()">📂 Artists Folder</div>
+  <div class="ctx-i" onclick="navTo('folder-releases');closeCtx()">💿 Releases Folder</div>
+  <div class="ctx-s"></div>
+  <div class="ctx-i" onclick="location.reload()">🔄 Refresh</div>
+</div>
+
+</div><!-- /desktop -->
+<script>
+// ═══════════════════════════════════════
+//  DATA
+// ═══════════════════════════════════════
+const ARTISTS = {
+  lsd: {
+    id:'lsd', name:'LilSaintDenzel', icon:'🎵',
+    badge:'ARTIST · EIGHT28 RECORDS',
+    role:'Producer · Engineer · Visual Theologian · England, UK',
+    heroBg:'linear-gradient(135deg,#050c1e,#0d1e3a,#060e20)',
+    heroGlow:'radial-gradient(ellipse 70% 80% at 30% 50%,rgba(0,120,212,0.25),transparent 65%)',
+    stats:[{n:'800+',l:'Videos'},{n:'16',l:'Tracks'},{n:'MSc',l:'Computing'},{n:'∞',l:'ATWT828'}],
+    bio:[
+      'LilSaintDenzel (Progress Orish) is a Full Stack Software Engineer, music producer, and creative theologian based in England, UK. Holding an MSc in Computing from Oxford Brookes University with certifications from Stanford, IBM, Google, and DeepLearning.AI, he exists at the intersection of faith, technology, and art. His work is governed by a single mandate: Romans 8:28 — all things working together.',
+      'He is the founder of Eight28 Records and the creative force behind PantaSynergy — two branches of one vision. His music blends gospel theology with trap production, and his generative art fuses code aesthetics with systematic beauty.'
+    ],
+    details:[
+      {i:'📍',t:'England, UK'},{i:'🎓',t:'MSc Computing, Oxford Brookes'},
+      {i:'🎸',t:'Guitar (primary instrument)'},{i:'⌨',t:'Elixir / Phoenix / OTP'},
+      {i:'✝',t:'Faith-rooted creative practice'}
+    ],
+    releases:['concordia','goodfriday'],
+    links:[
+      {i:'🌐',n:'Personal Site',u:'lilsaintdenzel.com'},
+      {i:'🛍',n:'Store Hub',u:'eight28.store'},
+      {i:'🎛',n:'Beat Store',u:'beatstars.com/eight28'},
+      {i:'📸',n:'Instagram',u:'@lilsaintdenzel'},
+      {i:'🎨',n:'Redbubble',u:'redbubble.com/eight28'},
+      {i:'📦',n:'Gumroad',u:'gumroad.com/eight28'},
+    ]
+  },
+  ps: {
+    id:'ps', name:'PantaSynergy', icon:'✦',
+    badge:'GENERATIVE ART · EIGHT28 RECORDS',
+    role:'Canvas Animations · WebGL/GLSL Shaders · Generative Systems',
+    heroBg:'linear-gradient(135deg,#060610,#0d0d28,#060614)',
+    heroGlow:'radial-gradient(ellipse 70% 80% at 60% 40%,rgba(80,60,200,0.3),transparent 65%)',
+    stats:[{n:'50+',l:'Pieces'},{n:'Canvas',l:'& WebGL'},{n:'p5.js',l:'& Three.js'},{n:'∞',l:'ATWT828'}],
+    bio:[
+      'PantaSynergy is the generative art studio of Eight28 Records — a sustained practice of creating systematic beauty through code. Each piece is a canvas animation, WebGL shader, or algorithmic system rendered and distributed via Instagram and YouTube.',
+      'The name encodes the ATWT828 philosophy: panta (all things) + synergy (working together). Every piece is a meditation on order within chaos — the divine logic underlying creative systems.'
+    ],
+    details:[
+      {i:'🖥',t:'Canvas 2D / WebGL / GLSL'},{i:'📐',t:'p5.js · Three.js · Shader Art'},
+      {i:'📱',t:'1080×1920 Instagram Reels'},{i:'🌐',t:'pantasynergy.com'}
+    ],
+    releases:[],
+    series:[
+      {ico:'〰',name:'Spectral Fabric Series',meta:'Canvas Animation · 2024',type:'SERIES'},
+      {ico:'⣿',name:'Halftone Burst',meta:'Canvas Animation · 2024',type:'SINGLE'},
+      {ico:'▦',name:'Glitch Grid / Signal Decay',meta:'Canvas Animation · 2024',type:'SINGLE'},
+      {ico:'◈',name:'AetherDrift',meta:'WebGL Shader · 2024',type:'SINGLE'},
+      {ico:'🏙',name:'Voxel City Series',meta:'3D Canvas · 2024–2025',type:'SERIES'},
+      {ico:'🌀',name:'Spiral Galaxy',meta:'Canvas Animation · 2025',type:'SINGLE'},
+      {ico:'🧵',name:'Woven Textile Series',meta:'Tartan Generator · 2025',type:'SERIES'},
+    ],
+    links:[
+      {i:'🌐',n:'Website',u:'pantasynergy.com'},
+      {i:'📸',n:'Instagram',u:'@pantasynergy'},
+      {i:'▶',n:'YouTube',u:'youtube.com/@pantasynergy'},
+    ]
+  }
+};
+
+const RELEASES = {
+  concordia:{
+    id:'concordia', artistId:'lsd',
+    name:'Concordia Sonorum', icon:'𝄞',
+    type:'ALBUM',meta:'Eight28 Records · 2025 · 11 Tracks',
+    coverBg:'linear-gradient(135deg,#0d0a06,#1a1408)',
+    tracks:[
+      {n:'Skopos',album:'Concordia Sonorum',dur:'3:42'},
+      {n:'Ahavah',album:'Concordia Sonorum',dur:'4:15'},
+      {n:'Nishmah',album:'Concordia Sonorum',dur:'3:58'},
+      {n:'Geshem',album:'Concordia Sonorum',dur:'4:30'},
+      {n:'8:28',album:'Concordia Sonorum',dur:'5:01'},
+      {n:'Kavah',album:'Concordia Sonorum',dur:'3:22'},
+      {n:'Hypomone',album:'Concordia Sonorum',dur:'4:44'},
+      {n:'Echad',album:'Concordia Sonorum',dur:'3:55'},
+      {n:'Selah',album:'Concordia Sonorum',dur:'4:08'},
+      {n:'Shalom',album:'Concordia Sonorum',dur:'3:36'},
+      {n:'Emmaus',album:'Concordia Sonorum',dur:'5:22'},
+    ]
+  },
+  goodfriday:{
+    id:'goodfriday', artistId:'lsd',
+    name:'Good Friday EP', icon:'✝',
+    type:'EP', meta:'Eight28 Records · 2025 · 5 Tracks',
+    coverBg:'linear-gradient(135deg,#120808,#0a0408)',
+    tracks:[
+      {n:'Crown Of Thorns',album:'Good Friday EP',dur:'4:12'},
+      {n:'Sunday Is Coming',album:'Good Friday EP',dur:'3:48'},
+      {n:'Christos Anesti',album:'Good Friday EP',dur:'4:55'},
+      {n:'Kavod',album:'Good Friday EP',dur:'3:30'},
+      {n:'Psalm 30:5',album:'Good Friday EP',dur:'4:20'},
+    ]
+  }
+};
+
+const STORIES = {
+  concordia:{
+    title:'Concordia Sonorum', type:'FULL ALBUM · 2025',
+    meta:'Eight28 Records · 11 Tracks · LilSaintDenzel',
+    heroBg:'linear-gradient(135deg,#06080e,#0d1420,#08100a)',
+    heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(200,164,74,0.22),transparent 65%)',
+    heroArt:'𝄞',
+    narrative:'Concordia Sonorum — Latin for "harmony of sounds" — is the debut full-length record from LilSaintDenzel under Eight28 Records. It is not merely an album. It is a sonic theology: eleven movements through the Hebrew and Greek words that form the architecture of the ATWT828 faith.',
+    body:'Written, produced, and recorded in England, the album traces the journey of a believer who has decided to trust the Romans 8:28 mandate completely. Each track is named after a word from scripture — Hebrew, Greek, or Aramaic — that captures a distinct posture of faith. Together they form a single, unified declaration: all things are working together for good.',
+    verse:{text:'"And we know that in all things God works for the good of those who love him, who have been called according to his purpose."',ref:'Romans 8:28'},
+    tracks:[
+      {num:'01',name:'Skopos',dur:'3:42',meaning:'Greek — Purpose, Target, Goal',story:'The opener. A declaration of intentionality. Before any sound is made, there must be a target. Skopos sets the north star for the entire album — you are not drifting, you are aimed.'},
+      {num:'02',name:'Ahavah',dur:'4:15',meaning:'Hebrew — Steadfast Love',story:'The theology of divine love that is not conditional on performance. Ahavah is the kind of love that pursues, that remains. The production reflects something warm and unrelenting.'},
+      {num:'03',name:'Nishmah',dur:'3:58',meaning:'Hebrew — Breath, Soul, Living Being',story:'A meditation on the imago dei — the breath of God that makes humanity more than matter. Nishmah asks: what does it mean to be animated by the divine?'},
+      {num:'04',name:'Geshem',dur:'4:30',meaning:'Hebrew — Rain, Material World, Physical Reality',story:'The album\'s most grounded track. Geshem confronts the weight of living in a physical world — bills, grief, delay — and insists that even here, the promise holds.'},
+      {num:'05',name:'8:28',dur:'5:01',meaning:'Romans 8:28 — The Mandate',story:'The title track and centrepiece. A five-minute anthem built around the core text. This is the hinge of the album: everything before leads here, everything after flows from it.'},
+      {num:'06',name:'Kavah',dur:'3:22',meaning:'Hebrew — Hope, Wait with Expectation',story:'Waiting is not passive. Kavah is active anticipation — the posture of someone who has already decided the answer is coming. The production is sparse, deliberate, unhurried.'},
+      {num:'07',name:'Hypomone',dur:'4:44',meaning:'Greek — Endurance, Patient Continuance Under Pressure',story:'The longest and most intense track on the album. Hypomone is for the season of prolonged pressure — not a sprint but a sustained forward movement under weight.'},
+      {num:'08',name:'Echad',dur:'3:55',meaning:'Hebrew — One, Unity, Wholeness',story:'A corporate track. Where most of the album is personal, Echad zooms out to the body — the community of believers called together into one mission, one family.'},
+      {num:'09',name:'Selah',dur:'4:08',meaning:'Hebrew — Pause, Reflect, Measure',story:'An interlude in spirit, a full track in form. Selah is the album\'s invitation to stop and receive what has already been said. A moment of liturgical stillness.'},
+      {num:'10',name:'Shalom',dur:'3:36',meaning:'Hebrew — Peace, Wholeness, Nothing Missing',story:'The penultimate track and the most restful. Shalom is not the absence of conflict but the presence of completeness. Everything accounted for, nothing left out.'},
+      {num:'11',name:'Emmaus',dur:'5:22',meaning:'The Road to Emmaus — Recognition, Revelation',story:'The closer. The disciples on the road to Emmaus did not recognise Jesus until the breaking of bread. Emmaus is about recognition coming late — and still being enough. A journey that ends with fire in the chest.'},
+    ],
+    credits:[{role:'Artist',name:'LilSaintDenzel'},{role:'Production',name:'LilSaintDenzel'},{role:'Label',name:'Eight28 Records'},{role:'Philosophy',name:'ATWT828'},{role:'Year',name:'2025'}]
+  },
+  goodfriday:{
+    title:'Good Friday EP', type:'EP · 2025',
+    meta:'Eight28 Records · 5 Tracks · LilSaintDenzel',
+    heroBg:'linear-gradient(135deg,#060408,#100810,#08040a)',
+    heroGlow:'radial-gradient(ellipse 65% 70% at 50% 40%,rgba(200,164,74,0.18),transparent 60%)',
+    heroArt:'✝',
+    narrative:'The Good Friday EP is a five-track devotional released in the season of Holy Week. It is not a commercial project. It is an act of worship — a sonic Stations of the Cross, beginning at the foot of Golgotha and ending in the light of an empty tomb.',
+    body:'Each track was written and produced in a single creative week, guided by the liturgical calendar and the weight of what Good Friday means — not as a religious holiday but as the moment everything changed. The EP does not resolve immediately. It sits in the tension of Saturday — the day between death and resurrection — before arriving at its answer.',
+    verse:{text:'"For I delivered to you as of first importance what I also received: that Christ died for our sins in accordance with the Scriptures."',ref:'1 Corinthians 15:3'},
+    tracks:[
+      {num:'01',name:'Crown Of Thorns',dur:'4:12',meaning:'Matthew 27:29 — The Mockery of the King',story:'The opening track begins at the moment of humiliation. The crown that should have been gold is made of thorns. The production is sparse, almost violent in its restraint.'},
+      {num:'02',name:'Sunday Is Coming',dur:'3:48',meaning:'The Promise of Resurrection',story:'Written in the voice of Saturday — the darkest day, when nothing had happened yet. The title is the sermon: Sunday is coming. A declaration made before the evidence arrives.'},
+      {num:'03',name:'Christos Anesti',dur:'4:55',meaning:'Greek — Christ Is Risen',story:'The Greek Easter proclamation becomes the centrepiece of the EP. This is the moment everything shifts. The track breaks open — production expanding, textures brightening.'},
+      {num:'04',name:'Kavod',dur:'3:30',meaning:'Hebrew — Glory, Weight, Honour',story:'The post-resurrection response. When you have witnessed Kavod — the weighty glory of God — nothing else can claim the same space. A track of awe, not celebration.'},
+      {num:'05',name:'Psalm 30:5',dur:'4:20',meaning:'"Weeping may endure for a night, but joy comes in the morning."',story:'The closer and the thesis. Good Friday is the night. Easter Sunday is the morning. Psalm 30:5 holds both in one breath.'},
+    ],
+    credits:[{role:'Artist',name:'LilSaintDenzel'},{role:'Production',name:'LilSaintDenzel'},{role:'Label',name:'Eight28 Records'},{role:'Season',name:'Holy Week 2025'},{role:'Year',name:'2025'}]
+  }
+};
+
+// ═══════════════════════════════════════
+//  EXPLORER NAVIGATION
+// ═══════════════════════════════════════
+let history = [], histIdx = -1, currentView = '';
+
+function navTo(view, pushHistory=true) {
+  if (pushHistory) {
+    if (histIdx < history.length - 1) history = history.slice(0, histIdx+1);
+    history.push(view); histIdx++;
+  }
+  currentView = view;
+  renderView(view);
+  updateNav();
+  bringWin('win-explorer');
+}
+
+function navBack() { if(histIdx>0){ histIdx--; navTo(history[histIdx],false); } }
+function navFwd()  { if(histIdx<history.length-1){ histIdx++; navTo(history[histIdx],false); } }
+
+function updateNav() {
+  document.getElementById('btn-back').disabled = histIdx<=0;
+  document.getElementById('btn-fwd').disabled  = histIdx>=history.length-1;
+}
+
+function renderView(view) {
+  const pane = document.getElementById('exp-pane');
+  const sb   = document.getElementById('exp-sb');
+
+  // Update sidebar active
+  sb.querySelectorAll('.sb-item').forEach(i => i.classList.toggle('active', i.dataset.view===view));
+
+  if (view === 'home')               { pane.innerHTML = viewHome();            setTitle('Eight28 Records','📁'); }
+  else if (view === 'folder-artists'){ pane.innerHTML = viewFolderArtists();   setTitle('Artists','📂'); }
+  else if (view === 'folder-releases'){pane.innerHTML = viewFolderReleases();  setTitle('Releases','💿'); }
+  else if (view.startsWith('artist-')){ pane.innerHTML = viewArtist(view.replace('artist-','')); setTitle(ARTISTS[view.replace('artist-','')]?.name||'','🎵'); initArtistTabs(); }
+  else if (view.startsWith('release-')){ pane.innerHTML = viewRelease(view.replace('release-','')); setTitle(RELEASES[view.replace('release-','')]?.name||'','💿'); }
+
+  renderCrumb(view);
+  renderSidebar();
+  pane.scrollTop = 0;
+}
+
+function setTitle(t, ico) {
+  document.getElementById('exp-ttl').textContent = t;
+  document.getElementById('exp-ico').textContent = ico;
+}
+
+function renderCrumb(view) {
+  const parts = [];
+  parts.push({label:'Eight28 Records', view:'home'});
+  if (view==='folder-artists') parts.push({label:'Artists',view:'folder-artists'});
+  else if (view==='folder-releases') parts.push({label:'Releases',view:'folder-releases'});
+  else if (view.startsWith('artist-')) {
+    parts.push({label:'Artists',view:'folder-artists'});
+    const a = ARTISTS[view.replace('artist-','')];
+    if(a) parts.push({label:a.name, view});
+  } else if (view.startsWith('release-')) {
+    const r = RELEASES[view.replace('release-','')];
+    if(r){
+      parts.push({label:'Artists',view:'folder-artists'});
+      const a = ARTISTS[r.artistId];
+      if(a) parts.push({label:a.name, view:'artist-'+r.artistId});
+      parts.push({label:r.name, view});
+    }
+  }
+  const el = document.getElementById('exp-crumb');
+  el.innerHTML = parts.map((p,i) =>
+    `<span class="exp-crumb-part" onclick="navTo('${p.view}')">${p.label}</span>${i<parts.length-1?'<span class="exp-crumb-sep">›</span>':''}`
+  ).join('');
+}
+
+function renderSidebar() {
+  document.getElementById('exp-sb').innerHTML = `
+    <div class="sb-group">LABEL</div>
+    <div class="sb-item ${currentView==='home'?'active':''}" data-view="home" onclick="navTo('home')"><span>🏠</span>Eight28 Records</div>
+    <div class="sb-group">DIRECTORIES</div>
+    <div class="sb-item ${currentView==='folder-artists'?'active':''}" data-view="folder-artists" onclick="navTo('folder-artists')"><span>📂</span>Artists</div>
+    <div class="sb-item ${currentView==='folder-releases'?'active':''}" data-view="folder-releases" onclick="navTo('folder-releases')"><span>💿</span>Releases</div>
+    <div class="sb-group">ARTISTS</div>
+    <div class="sb-item ${currentView==='artist-lsd'?'active':''}" data-view="artist-lsd" onclick="navTo('artist-lsd')"><span>🎵</span>LilSaintDenzel</div>
+    <div class="sb-item ${currentView==='artist-ps'?'active':''}" data-view="artist-ps" onclick="navTo('artist-ps')"><span>✦</span>PantaSynergy</div>
+    <div class="sb-group">RELEASES</div>
+    <div class="sb-item ${currentView==='release-concordia'?'active':''}" data-view="release-concordia" onclick="navTo('release-concordia')"><span>𝄞</span>Concordia Sonorum</div>
+    <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><span>✝</span>Good Friday EP</div>
+  `;
+}
+
+// ═══════════════════════════════════════
+//  VIEW RENDERERS
+// ═══════════════════════════════════════
+function viewHome() {
+  return `<div class="view-home">
+  <div class="home-banner">
+    <div class="home-logo-row">
+      <div class="home-logo">8</div>
+      <div><div class="home-name">Eight28 Records</div><div class="home-tag">INDEPENDENT LABEL · ENGLAND, UK · ATWT828</div></div>
+    </div>
+    <div class="home-title"><strong>Faith.</strong> Sound. Art.<br><em>All Things Working Together.</em></div>
+    <div class="home-desc">An independent label rooted in Romans 8:28. Click a folder to explore artists, releases, and more.</div>
+    <div class="home-pills"><span class="hpill g">ATWT828</span><span class="hpill">Music</span><span class="hpill">Generative Art</span><span class="hpill">England, UK</span></div>
+  </div>
+  <div class="home-stats">
+    <div class="hstat"><div class="hstat-n">800+</div><div class="hstat-l">YouTube Videos</div></div>
+    <div class="hstat"><div class="hstat-n">16</div><div class="hstat-l">Releases</div></div>
+    <div class="hstat"><div class="hstat-n">2</div><div class="hstat-l">Artists / Brands</div></div>
+    <div class="hstat"><div class="hstat-n">∞</div><div class="hstat-l">ATWT828</div></div>
+  </div>
+  <div class="folder-section">
+    <div class="folder-section-lbl">Folders</div>
+    <div class="folder-grid">
+      ${folderItem('folder-artists','📂','#0060c0','#003d8a','Artists','2 Artists')}
+      ${folderItem('folder-releases','💿','#1a3a6a','#0a1e3a','Releases','2 Releases')}
+    </div>
+    <div class="folder-section-lbl">Artists</div>
+    <div class="folder-grid">
+      ${folderItem('artist-lsd','🎵','#1a3a6a','#0a1e3a','LilSaintDenzel','Music · Producer')}
+      ${folderItem('artist-ps','✦','#1a1a3a','#0a0a20','PantaSynergy','Generative Art')}
+    </div>
+  </div>
+</div>`;
+}
+
+function folderItem(view, ico, c1, c2, name, meta) {
+  return `<div class="folder-item" onclick="navTo('${view}')" ondblclick="navTo('${view}')">
+    <div class="fi-folder-art">
+      <div class="fi-folder-back" style="background:linear-gradient(145deg,${c1},${c2});"></div>
+      <div class="fi-folder-tab" style="background:${c1};filter:brightness(1.3);"></div>
+      <div class="fi-folder-inner" style="background:rgba(255,255,255,0.08);">${ico}</div>
+    </div>
+    <div class="fi-name">${name}</div>
+    <div class="fi-meta">${meta}</div>
+  </div>`;
+}
+
+function viewFolderArtists() {
+  return `<div class="view-folder">
+  <div class="folder-header">
+    <div class="fh-ico">📂</div>
+    <div><div class="fh-name">Artists</div><div class="fh-meta">2 items</div></div>
+  </div>
+  <div class="folder-contents">
+    <div class="folder-grid">
+      ${folderItem('artist-lsd','🎵','#1a3a6a','#0a1e3a','LilSaintDenzel','Music · Producer')}
+      ${folderItem('artist-ps','✦','#1a1a3a','#0a0a20','PantaSynergy','Generative Art')}
+    </div>
+  </div>
+</div>`;
+}
+
+function viewFolderReleases() {
+  return `<div class="view-folder">
+  <div class="folder-header">
+    <div class="fh-ico">💿</div>
+    <div><div class="fh-name">Releases</div><div class="fh-meta">2 items</div></div>
+  </div>
+  <div class="folder-contents">
+    <div class="folder-grid">
+      ${folderItem('release-concordia','𝄞','#0d0a06','#1a1408','Concordia Sonorum','Album · 11 Tracks')}
+      ${folderItem('release-goodfriday','✝','#120808','#0a0408','Good Friday EP','EP · 5 Tracks')}
+    </div>
+  </div>
+</div>`;
+}
+
+function viewArtist(id) {
+  const a = ARTISTS[id]; if(!a) return '<div style="padding:40px;color:#999;font-family:DM Mono">Artist not found</div>';
+  const discHTML = a.releases.map(rid => {
+    const r = RELEASES[rid]; if(!r) return '';
+    return `<div class="disc-row" onclick="navTo('release-${rid}')">
+      <div class="dr-cover" style="background:${r.coverBg};">${r.icon}</div>
+      <div class="dr-info">
+        <div class="dr-title">${r.name}</div>
+        <div class="dr-meta">${r.meta}</div>
+        <div class="dr-tracks">${r.tracks.map(t=>t.n).join(' · ')}</div>
+      </div>
+      <div class="dr-badge">
+        <span class="dr-type">${r.type}</span>
+        <span class="dr-story" onclick="event.stopPropagation();openStory('${rid}')">📖 Story</span>
+      </div>
+    </div>`;
+  }).join('');
+
+  const seriesHTML = (a.series||[]).map(s=>`
+    <div class="disc-row">
+      <div class="dr-cover" style="background:linear-gradient(135deg,#0a0818,#14102a);font-size:18px;">${s.ico}</div>
+      <div class="dr-info"><div class="dr-title">${s.name}</div><div class="dr-meta">${s.meta}</div></div>
+      <div class="dr-badge"><span class="dr-type">${s.type}</span></div>
+    </div>`).join('');
+
+  const allTracks = a.releases.flatMap(rid=>(RELEASES[rid]?.tracks||[]).map((t,i)=>({...t,num:i+1})));
+  const tracksHTML = allTracks.map(t=>`
+    <div class="tr">
+      <span class="tr-n">${String(t.num).padStart(2,'0')}</span>
+      <div class="tr-play">▶</div>
+      <span class="tr-name">${t.n}</span>
+      <span class="tr-album">${t.album}</span>
+      <span class="tr-dur">${t.dur}</span>
+    </div>`).join('');
+
+  const linksHTML = a.links.map(l=>`
+    <div class="lnk">
+      <div class="lnk-ico">${l.i}</div>
+      <div class="lnk-t"><div class="lnk-name">${l.n}</div><div class="lnk-url">${l.u}</div></div>
+      <span class="lnk-arr">›</span>
+    </div>`).join('');
+
+  const bioHTML = a.bio.map(p=>`<div class="av-bio-txt">${p}</div>`).join('');
+  const detailsHTML = a.details.map(d=>`<div class="av-detail"><span class="avd-ico">${d.i}</span><span class="avd-txt">${d.t}</span></div>`).join('');
+  const statsHTML = a.stats.map(s=>`<div class="avs"><div class="avs-n">${s.n}</div><div class="avs-l">${s.l}</div></div>`).join('');
+
+  const discTab = a.releases.length > 0
+    ? `<div class="av-tab" data-panel="${id}-disc" onclick="switchArtistTab(this,'${id}','disc')">Discography</div>`
+    : (a.series ? `<div class="av-tab" data-panel="${id}-disc" onclick="switchArtistTab(this,'${id}','disc')">Series</div>` : '');
+
+  const tracksTab = allTracks.length > 0
+    ? `<div class="av-tab" data-panel="${id}-tracks" onclick="switchArtistTab(this,'${id}','tracks')">All Tracks</div>` : '';
+
+  return `<div class="artist-view">
+  <div class="av-hero">
+    <div class="av-hero-bg" style="background:${a.heroBg};"></div>
+    <div class="av-hero-glow" style="background:${a.heroGlow};"></div>
+    <div class="av-hero-info">
+      <div class="av-badge">${a.badge}</div>
+      <div class="av-name">${a.name}</div>
+      <div class="av-role">${a.role}</div>
+    </div>
+  </div>
+  <div class="av-stats">${statsHTML}</div>
+  <div class="av-tabs" id="tabs-${id}">
+    <div class="av-tab on" data-panel="${id}-bio" onclick="switchArtistTab(this,'${id}','bio')">Bio</div>
+    ${discTab}
+    ${tracksTab}
+    <div class="av-tab" data-panel="${id}-links" onclick="switchArtistTab(this,'${id}','links')">Links</div>
+  </div>
+  <div class="av-panel on" id="${id}-bio">
+    <div class="av-bio">${bioHTML}<div class="av-details">${detailsHTML}</div></div>
+  </div>
+  <div class="av-panel" id="${id}-disc">
+    <div class="${a.releases.length>0?'av-disc':'av-disc'}">${discHTML}${seriesHTML}</div>
+  </div>
+  ${allTracks.length>0?`<div class="av-panel" id="${id}-tracks"><div class="av-tracks">${tracksHTML}</div></div>`:''}
+  <div class="av-panel" id="${id}-links">
+    <div class="av-links">${linksHTML}</div>
+  </div>
+</div>`;
+}
+
+function viewRelease(id) {
+  const r = RELEASES[id]; if(!r) return '';
+  const tracksHTML = r.tracks.map((t,i)=>`
+    <div class="tr">
+      <span class="tr-n">${String(i+1).padStart(2,'0')}</span>
+      <div class="tr-play">▶</div>
+      <span class="tr-name">${t.n}</span>
+      <span class="tr-dur">${t.dur}</span>
+    </div>`).join('');
+  const a = ARTISTS[r.artistId];
+  return `<div>
+  <div class="av-hero">
+    <div class="av-hero-bg" style="background:${r.coverBg};"></div>
+    <div class="av-hero-glow" style="background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(200,164,74,0.2),transparent 65%);"></div>
+    <div class="av-hero-info">
+      <div class="av-badge">${r.type} · EIGHT28 RECORDS</div>
+      <div class="av-name">${r.name}</div>
+      <div class="av-role">${r.meta}${a?' · '+a.name:''}</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;padding:14px 18px;border-bottom:1px solid var(--div);flex-wrap:wrap;">
+    <button onclick="openStory('${id}')" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--sel);border:1px solid var(--sel-br);border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;transition:background .13s;" onmouseover="this.style.background='rgba(0,120,212,0.15)'" onmouseout="this.style.background='var(--sel)'">📖 Read Album Story</button>
+    ${a?`<button onclick="navTo('artist-${r.artistId}')" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(0,0,0,0.04);border:1px solid var(--div);border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--t2);cursor:pointer;">← Back to ${a.name}</button>`:''}
+  </div>
+  <div class="av-tracks">${tracksHTML}</div>
+</div>`;
+}
+
+// ── Artist tab switching ──
+function switchArtistTab(btn, artistId, panel) {
+  const tabsEl = document.getElementById('tabs-'+artistId);
+  if(!tabsEl) return;
+  tabsEl.querySelectorAll('.av-tab').forEach(t=>t.classList.remove('on'));
+  btn.classList.add('on');
+  const pane = document.getElementById('exp-pane');
+  pane.querySelectorAll('.av-panel').forEach(p=>p.classList.remove('on'));
+  const target = document.getElementById(artistId+'-'+panel);
+  if(target) target.classList.add('on');
+}
+
+function initArtistTabs() { /* panels set in HTML already */ }
+
+// ── Search ──
+function expSearch(q) {
+  if(!q.trim()) return;
+  q = q.toLowerCase();
+  // Just navigate to matching artist or release
+  if('lilsaintdenzel'.includes(q)||'lsd'.includes(q)) navTo('artist-lsd');
+  else if('pantasynergy'.includes(q)||'panta'.includes(q)) navTo('artist-ps');
+  else if('concordia'.includes(q)) navTo('release-concordia');
+  else if('good friday'.includes(q)||'goodfriday'.includes(q)) navTo('release-goodfriday');
+}
+
+// ═══════════════════════════════════════
+//  STORY MODAL
+// ═══════════════════════════════════════
+function openStory(id) {
+  const s = STORIES[id]; if(!s) return;
+  document.getElementById('story-bar-ttl').textContent = s.title;
+  const tracks = s.tracks.map(t=>`
+    <div class="st">
+      <div class="st-num">${t.num}</div>
+      <div class="st-info">
+        <div class="st-name">${t.name}<span class="st-dur">${t.dur}</span></div>
+        <div class="st-meaning">${t.meaning}</div>
+        <div class="st-story">${t.story}</div>
+      </div>
+    </div>`).join('');
+  const credits = s.credits.map(c=>`
+    <div class="sc-chip"><div class="sc-role">${c.role}</div><div class="sc-name">${c.name}</div></div>`).join('');
+  document.getElementById('story-body').innerHTML = `
+    <div class="sh-hero">
+      <div class="sh-bg" style="background:${s.heroBg};"></div>
+      <div class="sh-glow" style="background:${s.heroGlow};"></div>
+      <div class="sh-art">${s.heroArt}</div>
+      <div class="sh-info">
+        <div class="sh-badge">${s.type}</div>
+        <div class="sh-title">${s.title}</div>
+        <div class="sh-meta">${s.meta}</div>
+      </div>
+    </div>
+    <div class="ss">
+      <div class="ss-lbl">The Story</div>
+      <div class="ss-narr">${s.narrative}</div>
+      <div class="ss-body">${s.body}</div>
+      <div class="ss-verse"><div class="ss-verse-t">${s.verse.text}</div><div class="ss-verse-r">${s.verse.ref}</div></div>
+    </div>
+    <div class="ss">
+      <div class="ss-lbl">Track by Track</div>
+      <div class="st-list">${tracks}</div>
+    </div>
+    <div class="ss">
+      <div class="ss-lbl">Credits</div>
+      <div class="sc">${credits}</div>
+    </div>`;
+  document.getElementById('story-ov').classList.add('on');
+  document.getElementById('story-body').scrollTop = 0;
+}
+function closeStoryOv(e){ if(e.target===document.getElementById('story-ov')) closeStory(); }
+function closeStory(){ document.getElementById('story-ov').classList.remove('on'); }
+
+// ═══════════════════════════════════════
+//  WINDOW MANAGEMENT
+// ═══════════════════════════════════════
+let zTop=200;
+const mob=()=>window.innerWidth<=768;
+
+function focusWin(el){ document.querySelectorAll('.win').forEach(w=>w.classList.remove('focused')); el.classList.add('focused'); el.style.zIndex=++zTop; }
+
+function openWin(id){
+  const w=document.getElementById(id);
+  if(mob()){ document.querySelectorAll('.win.open').forEach(o=>{if(o.id!==id){o.classList.remove('open');}}); w.style.display='flex'; requestAnimationFrame(()=>w.classList.add('open')); document.getElementById('backdrop').classList.add('on'); }
+  else{ w.style.display='flex'; w.classList.add('open'); }
+  focusWin(w);
+}
+
+function bringWin(id){
+  const w=document.getElementById(id);
+  if(!w.classList.contains('open')||w.style.display==='none') openWin(id);
+  else focusWin(w);
+}
+
+function closeWin(id){
+  const w=document.getElementById(id);
+  if(mob()){ w.classList.remove('open'); setTimeout(()=>{if(!w.classList.contains('open'))w.style.display='none';},300); if(!document.querySelector('.win.open'))document.getElementById('backdrop').classList.remove('on'); }
+  else{ w.classList.remove('open'); w.style.opacity='0'; w.style.transform='scale(0.95)'; setTimeout(()=>{w.style.display='none';w.style.opacity='';w.style.transform='';},180); }
+}
+
+function minWin(id){
+  if(mob()){closeWin(id);return;}
+  const w=document.getElementById(id); w.classList.remove('open'); w.style.display='none';
+}
+
+function closeMobile(){ document.querySelectorAll('.win.open').forEach(w=>{w.classList.remove('open');setTimeout(()=>{w.style.display='none';},300);}); document.getElementById('backdrop').classList.remove('on'); }
+
+// Drag
+let dragEl=null,ox=0,oy=0;
+document.querySelectorAll('.wbar').forEach(bar=>{
+  bar.addEventListener('mousedown',e=>{
+    if(mob()||e.target.closest('.wbtns')) return;
+    dragEl=bar.closest('.win'); const r=dragEl.getBoundingClientRect();
+    ox=e.clientX-r.left; oy=e.clientY-r.top; focusWin(dragEl); e.preventDefault();
+  });
+});
+document.addEventListener('mousemove',e=>{ if(!dragEl) return; let x=Math.max(0,Math.min(window.innerWidth-dragEl.offsetWidth,e.clientX-ox)); let y=Math.max(0,Math.min(window.innerHeight-50-dragEl.offsetHeight,e.clientY-oy)); dragEl.style.left=x+'px'; dragEl.style.top=y+'px'; });
+document.addEventListener('mouseup',()=>dragEl=null);
+
+// Swipe to close (mobile)
+document.querySelectorAll('.wbar').forEach(bar=>{
+  let sy=0,act=false;
+  bar.addEventListener('touchstart',e=>{sy=e.touches[0].clientY;act=true;},{passive:true});
+  bar.addEventListener('touchmove',e=>{ if(!act) return; const dy=e.touches[0].clientY-sy; if(dy>0) bar.closest('.win').style.transform=`translateY(${dy}px)`; },{passive:true});
+  bar.addEventListener('touchend',e=>{ if(!act) return; act=false; const w=bar.closest('.win'); const dy=e.changedTouches[0].clientY-sy; w.style.transform=''; if(dy>70) closeWin(w.id); },{passive:true});
+});
+
+// Desktop icons
+document.querySelectorAll('.di').forEach(icon=>{
+  icon.addEventListener('click',e=>{ const wid=icon.dataset.win; if(!wid) return; if(mob()){bringWin(wid);}else{if(icon.classList.contains('sel')){bringWin(wid);icon.classList.remove('sel');}else{document.querySelectorAll('.di').forEach(i=>i.classList.remove('sel'));icon.classList.add('sel');}} e.stopPropagation(); });
+  icon.addEventListener('dblclick',e=>{ if(!mob()) bringWin(icon.dataset.win); });
+});
+document.getElementById('desktop').addEventListener('click',()=>document.querySelectorAll('.di').forEach(i=>i.classList.remove('sel')));
+
+// Start menu
+function toggleStart(){ const sm=document.getElementById('smenu'),btn=document.getElementById('smBtn'); sm.classList.toggle('on'); btn.classList.toggle('on'); }
+document.addEventListener('click',e=>{ const sm=document.getElementById('smenu'),btn=document.getElementById('smBtn'); if(!sm.contains(e.target)&&!btn.contains(e.target)){sm.classList.remove('on');btn.classList.remove('on');} });
+
+// Context menu
+const ctxEl=document.getElementById('ctxmenu');
+document.getElementById('desktop').addEventListener('contextmenu',e=>{ if(mob()||e.target.closest('.win')||e.target.closest('#taskbar')) return; e.preventDefault(); ctxEl.style.left=Math.min(e.clientX,window.innerWidth-200)+'px'; ctxEl.style.top=Math.min(e.clientY,window.innerHeight-130)+'px'; ctxEl.classList.add('on'); });
+document.addEventListener('click',()=>closeCtx());
+function closeCtx(){ ctxEl.classList.remove('on'); }
+
+// Clock
+function tick(){ const d=new Date(); const h=String(d.getHours()).padStart(2,'0'); const m=String(d.getMinutes()).padStart(2,'0'); const days=['Sun','Mon','Tue','Wed','Thu','Fri','Sat']; const months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; document.getElementById('tbTime').textContent=`${h}:${m}`; document.getElementById('tbDate').textContent=`${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]}`; }
+tick(); setInterval(tick,1000);
+
+// Wallpaper canvas
+const cvs=document.getElementById('bg'); const cx=cvs.getContext('2d');
+function rsz(){ cvs.width=window.innerWidth; cvs.height=window.innerHeight; }
+rsz(); window.addEventListener('resize',rsz);
+let t=0;
+const waves=[{amp:90,freq:.0018,spd:.0025,a:.05,col:'rgba(80,160,255,'},{amp:60,freq:.0028,spd:.004,a:.04,col:'rgba(140,200,255,'},{amp:110,freq:.0012,spd:.002,a:.035,col:'rgba(50,120,220,'},{amp:50,freq:.004,spd:.006,a:.03,col:'rgba(180,220,255,'}];
+function draw(){ cx.clearRect(0,0,cvs.width,cvs.height); t+=.5; waves.forEach((w,i)=>{ cx.beginPath(); for(let x=0;x<=cvs.width;x+=3){ const y=cvs.height*.5+Math.sin(x*w.freq+t*w.spd+i*1.2)*w.amp+Math.sin(x*w.freq*.6+t*w.spd*.8)*w.amp*.35; x===0?cx.moveTo(x,y):cx.lineTo(x,y); } cx.strokeStyle=w.col+w.a+')'; cx.lineWidth=1.5; cx.stroke(); }); requestAnimationFrame(draw); }
+draw();
+
+// ── INIT ──
+navTo('home');
+if(mob()) setTimeout(()=>bringWin('win-explorer'),300);
+</script>
+</body>
+</html>
