@@ -685,9 +685,6 @@ canvas#bg{position:absolute;inset:0;z-index:0;opacity:.5;}
     <div class="sm-pin" onclick="navTo('artist-lsd');toggleStart()">
       <div class="sm-pin-i">🎵</div><div class="sm-pin-l">LilSaintDenzel</div>
     </div>
-    <div class="sm-pin" onclick="navTo('artist-ps');toggleStart()">
-      <div class="sm-pin-i">✦</div><div class="sm-pin-l">PantaSynergy</div>
-    </div>
     <div class="sm-pin" onclick="navTo('folder-releases');toggleStart()">
       <div class="sm-pin-i">💿</div><div class="sm-pin-l">Releases</div>
     </div>
@@ -725,7 +722,7 @@ const ARTISTS = {
     stats:[{n:'800+',l:'Videos'},{n:'16',l:'Tracks'},{n:'MSc',l:'Computing'},{n:'∞',l:'ATWT828'}],
     bio:[
       'LilSaintDenzel (Progress Orish) is a Full Stack Software Engineer, music producer, and creative theologian based in England, UK. Holding an MSc in Computing from Oxford Brookes University with certifications from Stanford, IBM, Google, and DeepLearning.AI, he exists at the intersection of faith, technology, and art. His work is governed by a single mandate: Romans 8:28 — all things working together.',
-      'He is the founder of Eight28 Records and the creative force behind PantaSynergy — two branches of one vision. His music blends gospel theology with trap production, and his generative art fuses code aesthetics with systematic beauty.'
+      'He is the founder of Eight28 Records. His music blends gospel theology with trap production, and his generative art fuses code aesthetics with systematic beauty.'
     ],
     details:[
       {i:'📍',t:'England, UK'},{i:'🎓',t:'MSc Computing, Oxford Brookes'},
@@ -742,37 +739,6 @@ const ARTISTS = {
       {i:'📦',n:'Gumroad',u:'gumroad.com/eight28'},
     ]
   },
-  ps: {
-    id:'ps', name:'PantaSynergy', icon:'✦',
-    badge:'GENERATIVE ART · EIGHT28 RECORDS',
-    role:'Canvas Animations · WebGL/GLSL Shaders · Generative Systems',
-    heroBg:'linear-gradient(135deg,#060610,#0d0d28,#060614)',
-    heroGlow:'radial-gradient(ellipse 70% 80% at 60% 40%,rgba(80,60,200,0.3),transparent 65%)',
-    stats:[{n:'50+',l:'Pieces'},{n:'Canvas',l:'& WebGL'},{n:'p5.js',l:'& Three.js'},{n:'∞',l:'ATWT828'}],
-    bio:[
-      'PantaSynergy is the generative art studio of Eight28 Records — a sustained practice of creating systematic beauty through code. Each piece is a canvas animation, WebGL shader, or algorithmic system rendered and distributed via Instagram and YouTube.',
-      'The name encodes the ATWT828 philosophy: panta (all things) + synergy (working together). Every piece is a meditation on order within chaos — the divine logic underlying creative systems.'
-    ],
-    details:[
-      {i:'🖥',t:'Canvas 2D / WebGL / GLSL'},{i:'📐',t:'p5.js · Three.js · Shader Art'},
-      {i:'📱',t:'1080×1920 Instagram Reels'},{i:'🌐',t:'pantasynergy.com'}
-    ],
-    releases:[],
-    series:[
-      {ico:'〰',name:'Spectral Fabric Series',meta:'Canvas Animation · 2024',type:'SERIES'},
-      {ico:'⣿',name:'Halftone Burst',meta:'Canvas Animation · 2024',type:'SINGLE'},
-      {ico:'▦',name:'Glitch Grid / Signal Decay',meta:'Canvas Animation · 2024',type:'SINGLE'},
-      {ico:'◈',name:'AetherDrift',meta:'WebGL Shader · 2024',type:'SINGLE'},
-      {ico:'🏙',name:'Voxel City Series',meta:'3D Canvas · 2024–2025',type:'SERIES'},
-      {ico:'🌀',name:'Spiral Galaxy',meta:'Canvas Animation · 2025',type:'SINGLE'},
-      {ico:'🧵',name:'Woven Textile Series',meta:'Tartan Generator · 2025',type:'SERIES'},
-    ],
-    links:[
-      {i:'🌐',n:'Website',u:'pantasynergy.com'},
-      {i:'📸',n:'Instagram',u:'@pantasynergy'},
-      {i:'▶',n:'YouTube',u:'youtube.com/@pantasynergy'},
-    ]
-  }
 };
 
 const RELEASES = {
@@ -935,7 +901,6 @@ function renderSidebar() {
     <div class="sb-item ${currentView==='folder-releases'?'active':''}" data-view="folder-releases" onclick="navTo('folder-releases')"><span>💿</span>Releases</div>
     <div class="sb-group">ARTISTS</div>
     <div class="sb-item ${currentView==='artist-lsd'?'active':''}" data-view="artist-lsd" onclick="navTo('artist-lsd')"><span>🎵</span>LilSaintDenzel</div>
-    <div class="sb-item ${currentView==='artist-ps'?'active':''}" data-view="artist-ps" onclick="navTo('artist-ps')"><span>✦</span>PantaSynergy</div>
     <div class="sb-group">RELEASES</div>
     <div class="sb-item ${currentView==='release-concordia'?'active':''}" data-view="release-concordia" onclick="navTo('release-concordia')"><span>𝄞</span>Concordia Sonorum</div>
     <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><span>✝</span>Good Friday EP</div>
@@ -959,19 +924,18 @@ function viewHome() {
   <div class="home-stats">
     <div class="hstat"><div class="hstat-n">800+</div><div class="hstat-l">YouTube Videos</div></div>
     <div class="hstat"><div class="hstat-n">16</div><div class="hstat-l">Releases</div></div>
-    <div class="hstat"><div class="hstat-n">2</div><div class="hstat-l">Artists / Brands</div></div>
+    <div class="hstat"><div class="hstat-n">1</div><div class="hstat-l">Artist</div></div>
     <div class="hstat"><div class="hstat-n">∞</div><div class="hstat-l">ATWT828</div></div>
   </div>
   <div class="folder-section">
     <div class="folder-section-lbl">Folders</div>
     <div class="folder-grid">
-      ${folderItem('folder-artists','📂','#0060c0','#003d8a','Artists','2 Artists')}
+      ${folderItem('folder-artists','📂','#0060c0','#003d8a','Artists','1 Artist')}
       ${folderItem('folder-releases','💿','#1a3a6a','#0a1e3a','Releases','2 Releases')}
     </div>
     <div class="folder-section-lbl">Artists</div>
     <div class="folder-grid">
       ${folderItem('artist-lsd','🎵','#1a3a6a','#0a1e3a','LilSaintDenzel','Music · Producer')}
-      ${folderItem('artist-ps','✦','#1a1a3a','#0a0a20','PantaSynergy','Generative Art')}
     </div>
   </div>
 </div>`;
@@ -993,12 +957,11 @@ function viewFolderArtists() {
   return `<div class="view-folder">
   <div class="folder-header">
     <div class="fh-ico">📂</div>
-    <div><div class="fh-name">Artists</div><div class="fh-meta">2 items</div></div>
+    <div><div class="fh-name">Artists</div><div class="fh-meta">1 item</div></div>
   </div>
   <div class="folder-contents">
     <div class="folder-grid">
       ${folderItem('artist-lsd','🎵','#1a3a6a','#0a1e3a','LilSaintDenzel','Music · Producer')}
-      ${folderItem('artist-ps','✦','#1a1a3a','#0a0a20','PantaSynergy','Generative Art')}
     </div>
   </div>
 </div>`;
@@ -1150,7 +1113,6 @@ function expSearch(q) {
   q = q.toLowerCase();
   // Just navigate to matching artist or release
   if('lilsaintdenzel'.includes(q)||'lsd'.includes(q)) navTo('artist-lsd');
-  else if('pantasynergy'.includes(q)||'panta'.includes(q)) navTo('artist-ps');
   else if('concordia'.includes(q)) navTo('release-concordia');
   else if('good friday'.includes(q)||'goodfriday'.includes(q)) navTo('release-goodfriday');
 }
