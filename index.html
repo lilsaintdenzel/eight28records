@@ -1253,11 +1253,11 @@ function viewArtist(id) {
     </div>`).join('');
 
   const linksHTML = a.links.map(l=>`
-    <div class="lnk">
+    <a class="lnk" href="https://${l.u.replace(/^@/,'instagram.com/')}" target="_blank" rel="noopener" style="text-decoration:none;">
       <div class="lnk-ico">${l.i}</div>
       <div class="lnk-t"><div class="lnk-name">${l.n}</div><div class="lnk-url">${l.u}</div></div>
       <span class="lnk-arr">›</span>
-    </div>`).join('');
+    </a>`).join('');
 
   const bioHTML = a.bio.map(p=>`<div class="av-bio-txt">${p}</div>`).join('');
   const detailsHTML = a.details.map(d=>`<div class="av-detail"><span class="avd-ico">${d.i}</span><span class="avd-txt">${d.t}</span></div>`).join('');
