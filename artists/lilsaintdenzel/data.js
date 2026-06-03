@@ -8,7 +8,7 @@ const ARTISTS = {
     stats:[{n:'16',l:'Tracks'},{n:'∞',l:'ATWT828'}],
     bio:[
       'LilSaintDenzel (Progress Orish) exists at the intersection of faith, technology, and art. His work is governed by a single mandate: Romans 8:28, all things working together.',
-      'He is the founder of Eight28 Records. His music blends gospel theology with trap production.'
+      'He is the founder of Eight28 Records. His music blends gospel theology with hip-hop production.'
     ],
     details:[
       {i:'📍',t:'England, UK'}
