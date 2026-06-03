@@ -96,10 +96,9 @@ function viewHome() {
     </div>
     <div class="home-title"><strong>Faith.</strong> Sound. Art.<br><em>All Things Working Together.</em></div>
     <div class="home-desc">An independent label rooted in Romans 8:28. Click a folder to explore artists, releases, and more.</div>
-    <div class="home-pills"><span class="hpill g">ATWT828</span><span class="hpill">Music</span><span class="hpill">Generative Art</span><span class="hpill">England, UK</span></div>
+    <div class="home-pills"><span class="hpill g">ATWT828</span><span class="hpill">Music</span><span class="hpill">England, UK</span></div>
   </div>
   <div class="home-stats">
-    <div class="hstat"><div class="hstat-n">800+</div><div class="hstat-l">YouTube Videos</div></div>
     <div class="hstat"><div class="hstat-n">11</div><div class="hstat-l">Releases</div></div>
     <div class="hstat"><div class="hstat-n">1</div><div class="hstat-l">Artist</div></div>
     <div class="hstat"><div class="hstat-n">∞</div><div class="hstat-l">ATWT828</div></div>

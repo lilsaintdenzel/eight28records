@@ -5,10 +5,10 @@ const ARTISTS = {
     role:'Producer · Engineer · Visual Theologian · England, UK',
     heroBg:'linear-gradient(135deg,#050c1e,#0d1e3a,#060e20)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 30% 50%,rgba(0,120,212,0.25),transparent 65%)',
-    stats:[{n:'800+',l:'Videos'},{n:'16',l:'Tracks'},{n:'∞',l:'ATWT828'}],
+    stats:[{n:'16',l:'Tracks'},{n:'∞',l:'ATWT828'}],
     bio:[
       'LilSaintDenzel (Progress Orish) exists at the intersection of faith, technology, and art. His work is governed by a single mandate: Romans 8:28, all things working together.',
-      'He is the founder of Eight28 Records. His music blends gospel theology with trap production, and his generative art fuses code aesthetics with systematic beauty.'
+      'He is the founder of Eight28 Records. His music blends gospel theology with trap production.'
     ],
     details:[
       {i:'📍',t:'England, UK'}
