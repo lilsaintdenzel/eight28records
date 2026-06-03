@@ -731,10 +731,7 @@ const ARTISTS = {
     links:[
       {i:'🌐',n:'Personal Site',u:'lilsaintdenzel.com'},
       {i:'🛍',n:'Store Hub',u:'eight28.store'},
-      {i:'🎛',n:'Beat Store',u:'beatstars.com/eight28'},
       {i:'📸',n:'Instagram',u:'@lilsaintdenzel'},
-      {i:'🎨',n:'Redbubble',u:'redbubble.com/eight28'},
-      {i:'📦',n:'Gumroad',u:'gumroad.com/eight28'},
     ]
   },
 };
@@ -744,6 +741,7 @@ const RELEASES = {
     id:'concordia', artistId:'lsd',
     name:'Concordia Sonorum', icon:'𝄞',
     type:'ALBUM',meta:'Eight28 Records · 2025 · 11 Tracks',
+    spotifyId:'7psLFRAt2V5zunuvs3W6Wg',
     coverBg:'linear-gradient(135deg,#0d0a06,#1a1408)',
     tracks:[
       {n:'Skopos',album:'Concordia Sonorum',dur:'3:42'},
@@ -1312,6 +1310,10 @@ function viewRelease(id) {
       <span class="tr-dur">${t.dur}</span>
     </div>`).join('');
   const a = ARTISTS[r.artistId];
+  const embedHTML = r.spotifyId ? `
+  <div style="padding:16px 18px;border-bottom:1px solid var(--div);">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/${r.spotifyId}?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>` : '';
   return `<div>
   <div class="av-hero">
     <div class="av-hero-bg" style="background:${r.coverBg};"></div>
@@ -1325,8 +1327,10 @@ function viewRelease(id) {
   <div style="display:flex;gap:8px;padding:14px 18px;border-bottom:1px solid var(--div);flex-wrap:wrap;">
     <button onclick="openStory('${id}')" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:var(--sel);border:1px solid var(--sel-br);border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;transition:background .13s;" onmouseover="this.style.background='rgba(0,120,212,0.15)'" onmouseout="this.style.background='var(--sel)'">📖 Read Album Story</button>
     ${a?`<button onclick="navTo('artist-${r.artistId}')" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:rgba(0,0,0,0.04);border:1px solid var(--div);border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:var(--t2);cursor:pointer;">← Back to ${a.name}</button>`:''}
+    ${r.spotifyId?`<a href="https://open.spotify.com/album/${r.spotifyId}" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:6px;padding:8px 16px;background:#1DB954;border:none;border-radius:6px;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;color:#000;cursor:pointer;text-decoration:none;">▶ Open in Spotify</a>`:''}
   </div>
-  <div class="av-tracks">${tracksHTML}</div>
+  ${embedHTML}
+  ${r.tracks.length>0?`<div class="av-tracks">${tracksHTML}</div>`:''}
 </div>`;
 }
 
