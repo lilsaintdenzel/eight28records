@@ -1,2 +1,1 @@
-# EchadXR
 # eight28records

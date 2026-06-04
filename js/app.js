@@ -77,11 +77,11 @@ function renderSidebar() {
     <div class="sb-item ${currentView==='release-thereturn'?'active':''}" data-view="release-thereturn" onclick="navTo('release-thereturn')"><span>↩</span>The Return</div>
     <div class="sb-item ${currentView==='release-solas'?'active':''}" data-view="release-solas" onclick="navTo('release-solas')"><span>✠</span>SOLAS</div>
     <div class="sb-item ${currentView==='release-est1995'?'active':''}" data-view="release-est1995" onclick="navTo('release-est1995')"><span>9̶5</span>EST. 1995</div>
-    <div class="sb-item ${currentView==='release-heartware'?'active':''}" data-view="release-heartware" onclick="navTo('release-heartware')"><span>♥</span>HeartWare</div>
+    <div class="sb-item ${currentView==='release-heartware'?'active':''}" data-view="release-heartware" onclick="navTo('release-heartware')"><img src="artists/lilsaintdenzel/artwork/heartware.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">HeartWare</div>
     <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><span>✝</span>Good Friday EP</div>
     <div class="sb-item ${currentView==='release-darkclouds'?'active':''}" data-view="release-darkclouds" onclick="navTo('release-darkclouds')"><span>☁</span>Dark Clouds Deep Mercy</div>
     <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><span>✦</span>Imago Dei</div>
-    <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><span>☩</span>Euangelion</div>
+    <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Euangelion</div>
     <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><span>∞</span>PantaSynergy</div>
   `;
 }
@@ -156,11 +156,11 @@ function viewFolderReleases() {
       ${folderItem('release-thereturn','↩','#0e0e0e','#1a1a1a','The Return','EP · 2025 · 6 Tracks')}
       ${folderItem('release-solas','✠','#1a0e06','#2a1808','SOLAS','EP · 2025 · 5 Tracks')}
       ${folderItem('release-est1995','9̶5','#0a0a12','#1a1428','EST. 1995','Album · 2025')}
-      ${folderItem('release-heartware','♥','#0e0a14','#1e0a1a','HeartWare','Album · 2025 · 13 Tracks')}
+      ${folderItem('release-heartware','<img src="artists/lilsaintdenzel/artwork/heartware.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0a14','#1e0a1a','HeartWare','Album · 2025 · 13 Tracks')}
       ${folderItem('release-goodfriday','✝','#120808','#0a0408','Good Friday EP','EP · 2024 · 5 Tracks')}
       ${folderItem('release-darkclouds','☁','#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
       ${folderItem('release-imagodei','✦','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
-      ${folderItem('release-euangelion','☩','#080a10','#10141e','Euangelion','Album · 2024')}
+      ${folderItem('release-euangelion','<img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080a10','#10141e','Euangelion','Album · 2024')}
       ${folderItem('release-pantasynergy','∞','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
     </div>
   </div>
@@ -172,7 +172,7 @@ function viewArtist(id) {
   const discHTML = a.releases.map(rid => {
     const r = RELEASES[rid]; if(!r) return '';
     return `<div class="disc-row" onclick="navTo('release-${rid}')">
-      <div class="dr-cover" style="background:${r.coverBg};">${r.icon}</div>
+      <div class="dr-cover" style="background:${r.coverBg};">${r.coverImg?`<img src="${r.coverImg}" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">`:r.icon}</div>
       <div class="dr-info">
         <div class="dr-title">${r.name}</div>
         <div class="dr-meta">${r.meta}</div>
@@ -343,6 +343,7 @@ function openStory(id) {
   document.getElementById('story-body').innerHTML = `
     <div class="sh-hero">
       <div class="sh-bg" style="background:${s.heroBg};"></div>
+      ${s.heroImg?`<div style="position:absolute;inset:0;overflow:hidden;"><img src="${s.heroImg}" alt="${s.title}" style="width:100%;height:100%;object-fit:cover;opacity:0.45;"></div>`:''}
       <div class="sh-glow" style="background:${s.heroGlow};"></div>
       <div class="sh-art">${s.heroArt}</div>
       <div class="sh-info">

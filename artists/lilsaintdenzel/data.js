@@ -108,6 +108,7 @@ const RELEASES = {
     name:'HeartWare', icon:'♥',
     type:'ALBUM', meta:'Eight28 Records · 2025 · 13 Tracks',
     coverBg:'linear-gradient(135deg,#0e0a14,#1e0a1a)',
+    coverImg:'artists/lilsaintdenzel/artwork/heartware.jpg',
     tracks:[]
   },
   darkclouds:{
@@ -257,6 +258,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#0e0810,#1c0c1a,#0e0814)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(180,60,120,0.2),transparent 65%)',
     heroArt:'♥',
+    heroImg:'artists/lilsaintdenzel/artwork/heartware.jpg',
     narrative:'HeartWare is a 13-track exploration of the interior life - the software of the soul. Named for the idea that what runs the heart determines everything that follows.',
     body:'Released April 2025 under Eight28 Records, HeartWare examines what occupies the inner space: faith, fear, love, grief, desire, and surrender. Thirteen movements through the architecture of the human heart, submitted to the Romans 8:28 mandate.',
     verse:{text:'"Keep your heart with all vigilance, for from it flow the springs of life."',ref:'Proverbs 4:23'},
@@ -293,6 +295,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#06080e,#0c1018,#080c14)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(60,120,200,0.2),transparent 65%)',
     heroArt:'☩',
+    heroImg:'artists/lilsaintdenzel/artwork/euangelion.jpg',
     narrative:'Euangelion, the Greek word for Gospel, meaning "good news." A 2024 record that returns to the original announcement: something has happened that changes the terms of existence.',
     body:'Not a religious project in the institutional sense. Euangelion is a sonic re-proclamation of the most significant event in history - and what it demands of those who believe it. Produced under Eight28 Records.',
     verse:{text:'"For I am not ashamed of the gospel, because it is the power of God that brings salvation to everyone who believes."',ref:'Romans 1:16'},
