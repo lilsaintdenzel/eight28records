@@ -80,7 +80,7 @@ function renderSidebar() {
     <div class="sb-item ${currentView==='release-heartware'?'active':''}" data-view="release-heartware" onclick="navTo('release-heartware')"><img src="artists/lilsaintdenzel/artwork/heartware.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">HeartWare</div>
     <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><span>✝</span>Good Friday EP</div>
     <div class="sb-item ${currentView==='release-darkclouds'?'active':''}" data-view="release-darkclouds" onclick="navTo('release-darkclouds')"><span>☁</span>Dark Clouds Deep Mercy</div>
-    <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><span>✦</span>Imago Dei</div>
+    <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><img src="artists/lilsaintdenzel/artwork/imagodei.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Imago Dei</div>
     <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Euangelion</div>
     <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><img src="artists/lilsaintdenzel/artwork/pantasynergy.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">PantaSynergy</div>
   `;
