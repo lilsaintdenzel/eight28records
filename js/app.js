@@ -27,6 +27,8 @@ function renderView(view) {
   if (view === 'home')                { pane.innerHTML = viewHome();           setTitle('Eight28 Records','📁'); }
   else if (view === 'folder-artists') { pane.innerHTML = viewFolderArtists();  setTitle('Artists','📂'); }
   else if (view === 'folder-releases'){ pane.innerHTML = viewFolderReleases(); setTitle('Releases','💿'); }
+  else if (view === 'folder-releases-albums'){ pane.innerHTML = viewFolderReleasesAlbums(); setTitle('Albums','💿'); }
+  else if (view === 'folder-releases-eps'){ pane.innerHTML = viewFolderReleasesEPs(); setTitle('EPs','📀'); }
   else if (view.startsWith('artist-')){ pane.innerHTML = viewArtist(view.replace('artist-','')); setTitle(ARTISTS[view.replace('artist-','')]?.name||'','🎵'); initArtistTabs(); }
   else if (view.startsWith('release-')){ pane.innerHTML = viewRelease(view.replace('release-','')); setTitle(RELEASES[view.replace('release-','')]?.name||'','💿'); }
   renderCrumb(view);
@@ -44,6 +46,8 @@ function renderCrumb(view) {
   parts.push({label:'Eight28 Records', view:'home'});
   if (view==='folder-artists') parts.push({label:'Artists',view:'folder-artists'});
   else if (view==='folder-releases') parts.push({label:'Releases',view:'folder-releases'});
+  else if (view==='folder-releases-albums') { parts.push({label:'Releases',view:'folder-releases'}); parts.push({label:'Albums',view:'folder-releases-albums'}); }
+  else if (view==='folder-releases-eps') { parts.push({label:'Releases',view:'folder-releases'}); parts.push({label:'EPs',view:'folder-releases-eps'}); }
   else if (view.startsWith('artist-')) {
     parts.push({label:'Artists',view:'folder-artists'});
     const a = ARTISTS[view.replace('artist-','')];
@@ -62,28 +66,43 @@ function renderCrumb(view) {
   ).join('');
 }
 
+const collapsedSections = new Set();
+function toggleSection(key) {
+  collapsedSections.has(key) ? collapsedSections.delete(key) : collapsedSections.add(key);
+  renderSidebar();
+}
+
 function renderSidebar() {
+  const img = (path) => `<img src="${path}" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">`;
+  const sbItem = (view, content, label) => `<div class="sb-item ${currentView===view?'active':''}" data-view="${view}" onclick="navTo('${view}')">${content}${label}</div>`;
+  const albumsCol = collapsedSections.has('albums');
+  const epsCol    = collapsedSections.has('eps');
   document.getElementById('exp-sb').innerHTML = `
     <div class="sb-group">LABEL</div>
-    <div class="sb-item ${currentView==='home'?'active':''}" data-view="home" onclick="navTo('home')"><span>🏠</span>Eight28 Records</div>
+    ${sbItem('home','<span>🏠</span>','Eight28 Records')}
     <div class="sb-group">DIRECTORIES</div>
-    <div class="sb-item ${currentView==='folder-artists'?'active':''}" data-view="folder-artists" onclick="navTo('folder-artists')"><span>📂</span>Artists</div>
-    <div class="sb-item ${currentView==='folder-releases'?'active':''}" data-view="folder-releases" onclick="navTo('folder-releases')"><span>💿</span>Releases</div>
+    ${sbItem('folder-artists','<span>📂</span>','Artists')}
+    ${sbItem('folder-releases','<span>💿</span>','Releases')}
     <div class="sb-group">ARTISTS</div>
-    <div class="sb-item ${currentView==='artist-lsd'?'active':''}" data-view="artist-lsd" onclick="navTo('artist-lsd')"><span>🎵</span>LilSaintDenzel</div>
-    <div class="sb-group">RELEASES</div>
-    <div class="sb-item ${currentView==='release-concordia'?'active':''}" data-view="release-concordia" onclick="navTo('release-concordia')"><img src="artists/lilsaintdenzel/artwork/albums/concordia.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Concordia Sonorum</div>
-    <div class="sb-item ${currentView==='release-rescued'?'active':''}" data-view="release-rescued" onclick="navTo('release-rescued')"><img src="artists/lilsaintdenzel/artwork/eps/rescued.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Rescued: The Hundred</div>
-    <div class="sb-item ${currentView==='release-thereturn'?'active':''}" data-view="release-thereturn" onclick="navTo('release-thereturn')"><img src="artists/lilsaintdenzel/artwork/eps/thereturn.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">The Return</div>
-    <div class="sb-item ${currentView==='release-solas'?'active':''}" data-view="release-solas" onclick="navTo('release-solas')"><img src="artists/lilsaintdenzel/artwork/eps/solas.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">SOLAS</div>
-    <div class="sb-item ${currentView==='release-est1995'?'active':''}" data-view="release-est1995" onclick="navTo('release-est1995')"><img src="artists/lilsaintdenzel/artwork/albums/est1995.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">EST. 1995</div>
-    <div class="sb-item ${currentView==='release-heartware'?'active':''}" data-view="release-heartware" onclick="navTo('release-heartware')"><img src="artists/lilsaintdenzel/artwork/albums/heartware.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">HeartWare</div>
-    <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><img src="artists/lilsaintdenzel/artwork/eps/goodfriday.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Good Friday EP</div>
-    <div class="sb-item ${currentView==='release-darkclouds'?'active':''}" data-view="release-darkclouds" onclick="navTo('release-darkclouds')"><img src="artists/lilsaintdenzel/artwork/albums/darkclouds.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Dark Clouds Deep Mercy</div>
-    <div class="sb-item ${currentView==='release-casefilemoshia'?'active':''}" data-view="release-casefilemoshia" onclick="navTo('release-casefilemoshia')"><img src="artists/lilsaintdenzel/artwork/albums/casefile-moshia.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Case File: Moshia</div>
-    <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><img src="artists/lilsaintdenzel/artwork/albums/imagodei.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Imago Dei</div>
-    <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><img src="artists/lilsaintdenzel/artwork/albums/euangelion.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Euangelion</div>
-    <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><img src="artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">PantaSynergy</div>
+    ${sbItem('artist-lsd','<span>🎵</span>','LilSaintDenzel')}
+    <div class="sb-group sb-toggle${albumsCol?' sb-collapsed':''}" onclick="toggleSection('albums')">ALBUMS<span class="sb-group-arrow">▾</span></div>
+    ${albumsCol ? '' : `
+    ${sbItem('release-concordia',  img('artists/lilsaintdenzel/artwork/albums/concordia.jpg'),     'Concordia Sonorum')}
+    ${sbItem('release-est1995',    img('artists/lilsaintdenzel/artwork/albums/est1995.jpg'),        'EST. 1995')}
+    ${sbItem('release-heartware',  img('artists/lilsaintdenzel/artwork/albums/heartware.jpg'),      'HeartWare')}
+    ${sbItem('release-darkclouds', img('artists/lilsaintdenzel/artwork/albums/darkclouds.jpg'),     'Dark Clouds Deep Mercy')}
+    ${sbItem('release-casefilemoshia',img('artists/lilsaintdenzel/artwork/albums/casefile-moshia.jpg'),'Case File: Moshia')}
+    ${sbItem('release-imagodei',   img('artists/lilsaintdenzel/artwork/albums/imagodei.jpg'),       'Imago Dei')}
+    ${sbItem('release-euangelion', img('artists/lilsaintdenzel/artwork/albums/euangelion.jpg'),     'Euangelion')}
+    ${sbItem('release-pantasynergy',img('artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg'),  'PantaSynergy')}
+    `}
+    <div class="sb-group sb-toggle${epsCol?' sb-collapsed':''}" onclick="toggleSection('eps')">EPs<span class="sb-group-arrow">▾</span></div>
+    ${epsCol ? '' : `
+    ${sbItem('release-rescued',   img('artists/lilsaintdenzel/artwork/eps/rescued.jpg'),   'Rescued: The Hundred')}
+    ${sbItem('release-thereturn', img('artists/lilsaintdenzel/artwork/eps/thereturn.jpg'), 'The Return')}
+    ${sbItem('release-solas',     img('artists/lilsaintdenzel/artwork/eps/solas.jpg'),     'SOLAS')}
+    ${sbItem('release-goodfriday',img('artists/lilsaintdenzel/artwork/eps/goodfriday.jpg'),'Good Friday EP')}
+    `}
   `;
 }
 
@@ -148,22 +167,52 @@ function viewFolderReleases() {
   return `<div class="view-folder">
   <div class="folder-header">
     <div class="fh-ico">💿</div>
-    <div><div class="fh-name">Releases</div><div class="fh-meta">11 items</div></div>
+    <div><div class="fh-name">Releases</div><div class="fh-meta">2 folders</div></div>
   </div>
   <div class="folder-contents">
     <div class="folder-grid">
-      ${folderItem('release-concordia','<img src="artists/lilsaintdenzel/artwork/albums/concordia.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0d0a06','#1a1408','Concordia Sonorum','Album · 2025 · 11 Tracks')}
-      ${folderItem('release-rescued','<img src="artists/lilsaintdenzel/artwork/eps/rescued.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#1a1206','#2a1e08','Rescued: The Hundred','EP · 2026 · 5 Tracks')}
-      ${folderItem('release-thereturn','<img src="artists/lilsaintdenzel/artwork/eps/thereturn.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0e0e','#1a1a1a','The Return','EP · 2025 · 6 Tracks')}
-      ${folderItem('release-solas','<img src="artists/lilsaintdenzel/artwork/eps/solas.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#1a0e06','#2a1808','SOLAS','EP · 2025 · 5 Tracks')}
-      ${folderItem('release-est1995','<img src="artists/lilsaintdenzel/artwork/albums/est1995.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0a12','#1a1428','EST. 1995','Album · 2025')}
-      ${folderItem('release-heartware','<img src="artists/lilsaintdenzel/artwork/albums/heartware.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0a14','#1e0a1a','HeartWare','Album · 2025 · 13 Tracks')}
-      ${folderItem('release-goodfriday','<img src="artists/lilsaintdenzel/artwork/eps/goodfriday.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#120808','#0a0408','Good Friday EP','EP · 2024 · 5 Tracks')}
-      ${folderItem('release-darkclouds','<img src="artists/lilsaintdenzel/artwork/albums/darkclouds.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
-      ${folderItem('release-casefilemoshia','<img src="artists/lilsaintdenzel/artwork/albums/casefile-moshia.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0602','#1a0e06','Case File: Moshia','Album · 2024 · 12 Tracks')}
-      ${folderItem('release-imagodei','<img src="artists/lilsaintdenzel/artwork/albums/imagodei.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
-      ${folderItem('release-euangelion','<img src="artists/lilsaintdenzel/artwork/albums/euangelion.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080a10','#10141e','Euangelion','Album · 2024')}
-      ${folderItem('release-pantasynergy','<img src="artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
+      ${folderItem('folder-releases-albums','💿','#0d0a06','#1a1408','Albums','8 Albums')}
+      ${folderItem('folder-releases-eps','📀','#06080e','#0c1018','EPs','4 EPs')}
+    </div>
+  </div>
+</div>`;
+}
+
+function viewFolderReleasesAlbums() {
+  const art = (f) => `<img src="artists/lilsaintdenzel/artwork/albums/${f}" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">`;
+  return `<div class="view-folder">
+  <div class="folder-header">
+    <div class="fh-ico">💿</div>
+    <div><div class="fh-name">Albums</div><div class="fh-meta">8 items</div></div>
+  </div>
+  <div class="folder-contents">
+    <div class="folder-grid">
+      ${folderItem('release-concordia',   art('concordia.jpg'),     '#0d0a06','#1a1408','Concordia Sonorum',  'Album · 2025 · 11 Tracks')}
+      ${folderItem('release-est1995',     art('est1995.jpg'),       '#0a0a12','#1a1428','EST. 1995',          'Album · 2025')}
+      ${folderItem('release-heartware',   art('heartware.jpg'),     '#0e0a14','#1e0a1a','HeartWare',          'Album · 2025 · 13 Tracks')}
+      ${folderItem('release-darkclouds',  art('darkclouds.jpg'),    '#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
+      ${folderItem('release-casefilemoshia',art('casefile-moshia.jpg'),'#0a0602','#1a0e06','Case File: Moshia','Album · 2024 · 12 Tracks')}
+      ${folderItem('release-imagodei',    art('imagodei.jpg'),      '#0a0a08','#1a1a10','Imago Dei',          'Album · 2024')}
+      ${folderItem('release-euangelion',  art('euangelion.jpg'),    '#080a10','#10141e','Euangelion',         'Album · 2024')}
+      ${folderItem('release-pantasynergy',art('pantasynergy.jpg'),  '#060e08','#0e1e10','PantaSynergy',       'Album · 2023')}
+    </div>
+  </div>
+</div>`;
+}
+
+function viewFolderReleasesEPs() {
+  const art = (f) => `<img src="artists/lilsaintdenzel/artwork/eps/${f}" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">`;
+  return `<div class="view-folder">
+  <div class="folder-header">
+    <div class="fh-ico">📀</div>
+    <div><div class="fh-name">EPs</div><div class="fh-meta">4 items</div></div>
+  </div>
+  <div class="folder-contents">
+    <div class="folder-grid">
+      ${folderItem('release-rescued',   art('rescued.jpg'),   '#1a1206','#2a1e08','Rescued: The Hundred','EP · 2026 · 5 Tracks')}
+      ${folderItem('release-thereturn', art('thereturn.jpg'), '#0e0e0e','#1a1a1a','The Return',          'EP · 2025 · 6 Tracks')}
+      ${folderItem('release-solas',     art('solas.jpg'),     '#1a0e06','#2a1808','SOLAS',               'EP · 2025 · 5 Tracks')}
+      ${folderItem('release-goodfriday',art('goodfriday.jpg'),'#120808','#0a0408','Good Friday EP',      'EP · 2024 · 5 Tracks')}
     </div>
   </div>
 </div>`;

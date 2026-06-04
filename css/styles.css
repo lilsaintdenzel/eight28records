@@ -177,6 +177,13 @@ canvas#bg{position:absolute;inset:0;z-index:0;opacity:.5;}
   font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
   color:var(--t3);letter-spacing:.1em;text-transform:uppercase;
 }
+.sb-group.sb-toggle{
+  cursor:pointer;user-select:none;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.sb-group.sb-toggle:hover{color:var(--t2);}
+.sb-group-arrow{font-size:8px;opacity:0.5;transition:transform .15s;}
+.sb-group.sb-collapsed .sb-group-arrow{transform:rotate(-90deg);}
 .sb-item{
   display:flex;align-items:center;gap:8px;
   padding:7px 14px;font-size:12px;font-weight:600;
