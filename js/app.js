@@ -82,7 +82,7 @@ function renderSidebar() {
     <div class="sb-item ${currentView==='release-darkclouds'?'active':''}" data-view="release-darkclouds" onclick="navTo('release-darkclouds')"><span>☁</span>Dark Clouds Deep Mercy</div>
     <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><span>✦</span>Imago Dei</div>
     <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Euangelion</div>
-    <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><span>∞</span>PantaSynergy</div>
+    <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><img src="artists/lilsaintdenzel/artwork/pantasynergy.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">PantaSynergy</div>
   `;
 }
 
@@ -161,7 +161,7 @@ function viewFolderReleases() {
       ${folderItem('release-darkclouds','☁','#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
       ${folderItem('release-imagodei','✦','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
       ${folderItem('release-euangelion','<img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080a10','#10141e','Euangelion','Album · 2024')}
-      ${folderItem('release-pantasynergy','∞','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
+      ${folderItem('release-pantasynergy','<img src="artists/lilsaintdenzel/artwork/pantasynergy.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
     </div>
   </div>
 </div>`;

@@ -138,6 +138,7 @@ const RELEASES = {
     name:'PantaSynergy', icon:'∞',
     type:'ALBUM', meta:'Eight28 Records · 2023',
     coverBg:'linear-gradient(135deg,#060e08,#0e1e10)',
+    coverImg:'artists/lilsaintdenzel/artwork/pantasynergy.jpg',
     tracks:[]
   }
 };
@@ -308,6 +309,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#060e06,#0c1a0c,#081208)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(60,180,80,0.18),transparent 65%)',
     heroArt:'∞',
+    heroImg:'artists/lilsaintdenzel/artwork/pantasynergy.jpg',
     narrative:'PantaSynergy is the debut record - the opening statement. The title combines the Greek "panta" (all things) with synergy: the idea that all things working together produce something greater than their sum.',
     body:'LilSaintDenzel\'s first full project under Eight28 Records, PantaSynergy establishes the theological and sonic foundation of everything that follows. It is a declaration of the ATWT828 mandate in its most elemental form: all things, without exception, are working together.',
     verse:{text:'"And we know that in all things God works for the good of those who love him, who have been called according to his purpose."',ref:'Romans 8:28'},
