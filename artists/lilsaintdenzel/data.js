@@ -123,6 +123,7 @@ const RELEASES = {
     name:'Imago Dei', icon:'✦',
     type:'ALBUM', meta:'Eight28 Records · 2024',
     coverBg:'linear-gradient(135deg,#0a0a08,#1a1a10)',
+    coverImg:'artists/lilsaintdenzel/artwork/imagodei.jpg',
     tracks:[]
   },
   euangelion:{
@@ -284,6 +285,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#080a08,#141a10,#0c1208)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(80,160,80,0.18),transparent 65%)',
     heroArt:'✦',
+    heroImg:'artists/lilsaintdenzel/artwork/imagodei.jpg',
     narrative:'Imago Dei, the image of God. A 2024 record built on a single theological conviction: every human being carries the imprint of the divine, and that changes everything.',
     body:'Written and produced under Eight28 Records, Imago Dei explores what it means to be made in the image of God in a world that frequently contradicts that reality. The production reflects dignity - unhurried, considered, layered with intention.',
     verse:{text:'"So God created mankind in his own image, in the image of God he created them."',ref:'Genesis 1:27'},
