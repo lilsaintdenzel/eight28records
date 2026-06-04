@@ -236,15 +236,6 @@ function viewArtist(id) {
       <div class="dr-badge"><span class="dr-type">${s.type}</span></div>
     </div>`).join('');
 
-  const allTracks = a.releases.flatMap(rid=>(RELEASES[rid]?.tracks||[]).map((t,i)=>({...t,num:i+1})));
-  const tracksHTML = allTracks.map(t=>`
-    <div class="tr">
-      <span class="tr-n">${String(t.num).padStart(2,'0')}</span>
-      <div class="tr-play">▶</div>
-      <span class="tr-name">${t.n}</span>
-      <span class="tr-album">${t.album}</span>
-      <span class="tr-dur">${t.dur}</span>
-    </div>`).join('');
 
   const linksHTML = a.links.map(l=>{
     const href = l.u.startsWith('@') ? `https://instagram.com/${l.u.slice(1)}` : `https://${l.u}`;
@@ -262,8 +253,7 @@ function viewArtist(id) {
   const discTab = (a.releases.length > 0 || a.series)
     ? `<div class="av-tab" data-panel="${id}-disc" onclick="switchArtistTab(this,'${id}','disc')">Releases</div>` : '';
 
-  const tracksTab = allTracks.length > 0
-    ? `<div class="av-tab" data-panel="${id}-tracks" onclick="switchArtistTab(this,'${id}','tracks')">All Tracks</div>` : '';
+
 
   return `<div class="artist-view">
   <div class="av-hero">
@@ -279,7 +269,6 @@ function viewArtist(id) {
   <div class="av-tabs" id="tabs-${id}">
     <div class="av-tab on" data-panel="${id}-bio" onclick="switchArtistTab(this,'${id}','bio')">Bio</div>
     ${discTab}
-    ${tracksTab}
     <div class="av-tab" data-panel="${id}-links" onclick="switchArtistTab(this,'${id}','links')">Links</div>
   </div>
   <div class="av-panel on" id="${id}-bio">
@@ -288,7 +277,6 @@ function viewArtist(id) {
   <div class="av-panel" id="${id}-disc">
     <div class="av-disc">${discHTML}${seriesHTML}</div>
   </div>
-  ${allTracks.length>0?`<div class="av-panel" id="${id}-tracks"><div class="av-tracks">${tracksHTML}</div></div>`:''}
   <div class="av-panel" id="${id}-links">
     <div class="av-links">${linksHTML}</div>
   </div>
