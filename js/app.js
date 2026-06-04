@@ -46,18 +46,19 @@ function renderCrumb(view) {
   parts.push({label:'Eight28 Records', view:'home'});
   if (view==='folder-artists') parts.push({label:'Artists',view:'folder-artists'});
   else if (view==='folder-releases') parts.push({label:'Releases',view:'folder-releases'});
-  else if (view==='folder-releases-albums') { parts.push({label:'Releases',view:'folder-releases'}); parts.push({label:'Albums',view:'folder-releases-albums'}); }
-  else if (view==='folder-releases-eps') { parts.push({label:'Releases',view:'folder-releases'}); parts.push({label:'EPs',view:'folder-releases-eps'}); }
+  else if (view==='folder-releases-albums') { parts.push({label:'LilSaintDenzel',view:'artist-lsd'}); parts.push({label:'Albums',view:'folder-releases-albums'}); }
+  else if (view==='folder-releases-eps')    { parts.push({label:'LilSaintDenzel',view:'artist-lsd'}); parts.push({label:'EPs',view:'folder-releases-eps'}); }
   else if (view.startsWith('artist-')) {
-    parts.push({label:'Artists',view:'folder-artists'});
     const a = ARTISTS[view.replace('artist-','')];
     if(a) parts.push({label:a.name, view});
   } else if (view.startsWith('release-')) {
     const r = RELEASES[view.replace('release-','')];
     if(r){
-      parts.push({label:'Artists',view:'folder-artists'});
       const a = ARTISTS[r.artistId];
       if(a) parts.push({label:a.name, view:'artist-'+r.artistId});
+      const folderView = r.type==='EP' ? 'folder-releases-eps' : 'folder-releases-albums';
+      const folderLabel = r.type==='EP' ? 'EPs' : 'Albums';
+      parts.push({label:folderLabel, view:folderView});
       parts.push({label:r.name, view});
     }
   }
@@ -82,7 +83,8 @@ function renderSidebar() {
     ${sbItem('home','<span>🏠</span>','Eight28 Records')}
     <div class="sb-group">DIRECTORIES</div>
     ${sbItem('folder-artists','<span>📂</span>','Artists')}
-    ${sbItem('folder-releases','<span>💿</span>','Releases')}
+    ${sbItem('folder-releases-albums','<span>💿</span>','Albums')}
+    ${sbItem('folder-releases-eps','<span>📀</span>','EPs')}
     <div class="sb-group">ARTISTS</div>
     ${sbItem('artist-lsd','<span>🎵</span>','LilSaintDenzel')}
     <div class="sb-group sb-toggle${albumsCol?' sb-collapsed':''}" onclick="toggleSection('albums')">ALBUMS<span class="sb-group-arrow">▾</span></div>
@@ -220,21 +222,12 @@ function viewFolderReleasesEPs() {
 
 function viewArtist(id) {
   const a = ARTISTS[id]; if(!a) return '<div style="padding:40px;color:#999;font-family:DM Mono">Artist not found</div>';
-  const discHTML = a.releases.map(rid => {
-    const r = RELEASES[rid]; if(!r) return '';
-    return `<div class="disc-row" onclick="navTo('release-${rid}')">
-      <div class="dr-cover" style="background:${r.coverBg};">${r.coverImg?`<img src="${r.coverImg}" style="width:100%;height:100%;object-fit:cover;border-radius:7px;">`:r.icon}</div>
-      <div class="dr-info">
-        <div class="dr-title">${r.name}</div>
-        <div class="dr-meta">${r.meta}</div>
-        <div class="dr-tracks">${r.tracks.map(t=>t.n).join(' · ')}</div>
-      </div>
-      <div class="dr-badge">
-        <span class="dr-type">${r.type}</span>
-        <span class="dr-story" onclick="event.stopPropagation();openStory('${rid}')">📖 Story</span>
-      </div>
-    </div>`;
-  }).join('');
+  const albumCount = a.releases.filter(rid=>RELEASES[rid]?.type==='ALBUM').length;
+  const epCount    = a.releases.filter(rid=>RELEASES[rid]?.type==='EP').length;
+  const discHTML = `<div class="folder-grid" style="padding:16px 18px;">
+    ${albumCount ? folderItem('folder-releases-albums','💿','#0d0a06','#1a1408','Albums',`${albumCount} Albums`) : ''}
+    ${epCount    ? folderItem('folder-releases-eps','📀','#06080e','#0c1018','EPs',`${epCount} EPs`) : ''}
+  </div>`;
 
   const seriesHTML = (a.series||[]).map(s=>`
     <div class="disc-row">
@@ -266,9 +259,8 @@ function viewArtist(id) {
   const detailsHTML = a.details.map(d=>`<div class="av-detail"><span class="avd-ico">${d.i}</span><span class="avd-txt">${d.t}</span></div>`).join('');
   const statsHTML = a.stats.map(s=>`<div class="avs"><div class="avs-n">${s.n}</div><div class="avs-l">${s.l}</div></div>`).join('');
 
-  const discTab = a.releases.length > 0
-    ? `<div class="av-tab" data-panel="${id}-disc" onclick="switchArtistTab(this,'${id}','disc')">Discography</div>`
-    : (a.series ? `<div class="av-tab" data-panel="${id}-disc" onclick="switchArtistTab(this,'${id}','disc')">Series</div>` : '');
+  const discTab = (a.releases.length > 0 || a.series)
+    ? `<div class="av-tab" data-panel="${id}-disc" onclick="switchArtistTab(this,'${id}','disc')">Releases</div>` : '';
 
   const tracksTab = allTracks.length > 0
     ? `<div class="av-tab" data-panel="${id}-tracks" onclick="switchArtistTab(this,'${id}','tracks')">All Tracks</div>` : '';
