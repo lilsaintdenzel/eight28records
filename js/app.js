@@ -159,7 +159,7 @@ function viewFolderReleases() {
       ${folderItem('release-heartware','<img src="artists/lilsaintdenzel/artwork/heartware.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0a14','#1e0a1a','HeartWare','Album · 2025 · 13 Tracks')}
       ${folderItem('release-goodfriday','✝','#120808','#0a0408','Good Friday EP','EP · 2024 · 5 Tracks')}
       ${folderItem('release-darkclouds','☁','#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
-      ${folderItem('release-imagodei','✦','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
+      ${folderItem('release-imagodei','<img src="artists/lilsaintdenzel/artwork/imagodei.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
       ${folderItem('release-euangelion','<img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080a10','#10141e','Euangelion','Album · 2024')}
       ${folderItem('release-pantasynergy','<img src="artists/lilsaintdenzel/artwork/pantasynergy.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
     </div>
