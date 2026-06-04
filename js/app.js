@@ -72,17 +72,17 @@ function renderSidebar() {
     <div class="sb-group">ARTISTS</div>
     <div class="sb-item ${currentView==='artist-lsd'?'active':''}" data-view="artist-lsd" onclick="navTo('artist-lsd')"><span>🎵</span>LilSaintDenzel</div>
     <div class="sb-group">RELEASES</div>
-    <div class="sb-item ${currentView==='release-concordia'?'active':''}" data-view="release-concordia" onclick="navTo('release-concordia')"><span>𝄞</span>Concordia Sonorum</div>
-    <div class="sb-item ${currentView==='release-rescued'?'active':''}" data-view="release-rescued" onclick="navTo('release-rescued')"><span>💯</span>Rescued: The Hundred</div>
-    <div class="sb-item ${currentView==='release-thereturn'?'active':''}" data-view="release-thereturn" onclick="navTo('release-thereturn')"><span>↩</span>The Return</div>
-    <div class="sb-item ${currentView==='release-solas'?'active':''}" data-view="release-solas" onclick="navTo('release-solas')"><span>✠</span>SOLAS</div>
-    <div class="sb-item ${currentView==='release-est1995'?'active':''}" data-view="release-est1995" onclick="navTo('release-est1995')"><span>9̶5</span>EST. 1995</div>
-    <div class="sb-item ${currentView==='release-heartware'?'active':''}" data-view="release-heartware" onclick="navTo('release-heartware')"><img src="artists/lilsaintdenzel/artwork/heartware.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">HeartWare</div>
-    <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><span>✝</span>Good Friday EP</div>
-    <div class="sb-item ${currentView==='release-darkclouds'?'active':''}" data-view="release-darkclouds" onclick="navTo('release-darkclouds')"><span>☁</span>Dark Clouds Deep Mercy</div>
-    <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><img src="artists/lilsaintdenzel/artwork/imagodei.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Imago Dei</div>
-    <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Euangelion</div>
-    <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><img src="artists/lilsaintdenzel/artwork/pantasynergy.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">PantaSynergy</div>
+    <div class="sb-item ${currentView==='release-concordia'?'active':''}" data-view="release-concordia" onclick="navTo('release-concordia')"><img src="artists/lilsaintdenzel/artwork/albums/concordia.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Concordia Sonorum</div>
+    <div class="sb-item ${currentView==='release-rescued'?'active':''}" data-view="release-rescued" onclick="navTo('release-rescued')"><img src="artists/lilsaintdenzel/artwork/eps/rescued.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Rescued: The Hundred</div>
+    <div class="sb-item ${currentView==='release-thereturn'?'active':''}" data-view="release-thereturn" onclick="navTo('release-thereturn')"><img src="artists/lilsaintdenzel/artwork/eps/thereturn.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">The Return</div>
+    <div class="sb-item ${currentView==='release-solas'?'active':''}" data-view="release-solas" onclick="navTo('release-solas')"><img src="artists/lilsaintdenzel/artwork/eps/solas.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">SOLAS</div>
+    <div class="sb-item ${currentView==='release-est1995'?'active':''}" data-view="release-est1995" onclick="navTo('release-est1995')"><img src="artists/lilsaintdenzel/artwork/albums/est1995.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">EST. 1995</div>
+    <div class="sb-item ${currentView==='release-heartware'?'active':''}" data-view="release-heartware" onclick="navTo('release-heartware')"><img src="artists/lilsaintdenzel/artwork/albums/heartware.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">HeartWare</div>
+    <div class="sb-item ${currentView==='release-goodfriday'?'active':''}" data-view="release-goodfriday" onclick="navTo('release-goodfriday')"><img src="artists/lilsaintdenzel/artwork/eps/goodfriday.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Good Friday EP</div>
+    <div class="sb-item ${currentView==='release-darkclouds'?'active':''}" data-view="release-darkclouds" onclick="navTo('release-darkclouds')"><img src="artists/lilsaintdenzel/artwork/albums/darkclouds.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Dark Clouds Deep Mercy</div>
+    <div class="sb-item ${currentView==='release-imagodei'?'active':''}" data-view="release-imagodei" onclick="navTo('release-imagodei')"><img src="artists/lilsaintdenzel/artwork/albums/imagodei.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Imago Dei</div>
+    <div class="sb-item ${currentView==='release-euangelion'?'active':''}" data-view="release-euangelion" onclick="navTo('release-euangelion')"><img src="artists/lilsaintdenzel/artwork/albums/euangelion.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">Euangelion</div>
+    <div class="sb-item ${currentView==='release-pantasynergy'?'active':''}" data-view="release-pantasynergy" onclick="navTo('release-pantasynergy')"><img src="artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg" style="width:16px;height:16px;object-fit:cover;border-radius:3px;flex-shrink:0;">PantaSynergy</div>
   `;
 }
 
@@ -151,17 +151,17 @@ function viewFolderReleases() {
   </div>
   <div class="folder-contents">
     <div class="folder-grid">
-      ${folderItem('release-concordia','𝄞','#0d0a06','#1a1408','Concordia Sonorum','Album · 2026 · 11 Tracks')}
-      ${folderItem('release-rescued','💯','#1a1206','#2a1e08','Rescued: The Hundred','EP · 2026 · 5 Tracks')}
-      ${folderItem('release-thereturn','↩','#0e0e0e','#1a1a1a','The Return','EP · 2025 · 6 Tracks')}
-      ${folderItem('release-solas','✠','#1a0e06','#2a1808','SOLAS','EP · 2025 · 5 Tracks')}
-      ${folderItem('release-est1995','9̶5','#0a0a12','#1a1428','EST. 1995','Album · 2025')}
-      ${folderItem('release-heartware','<img src="artists/lilsaintdenzel/artwork/heartware.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0a14','#1e0a1a','HeartWare','Album · 2025 · 13 Tracks')}
-      ${folderItem('release-goodfriday','✝','#120808','#0a0408','Good Friday EP','EP · 2024 · 5 Tracks')}
-      ${folderItem('release-darkclouds','☁','#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
-      ${folderItem('release-imagodei','<img src="artists/lilsaintdenzel/artwork/imagodei.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
-      ${folderItem('release-euangelion','<img src="artists/lilsaintdenzel/artwork/euangelion.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080a10','#10141e','Euangelion','Album · 2024')}
-      ${folderItem('release-pantasynergy','<img src="artists/lilsaintdenzel/artwork/pantasynergy.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
+      ${folderItem('release-concordia','<img src="artists/lilsaintdenzel/artwork/albums/concordia.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0d0a06','#1a1408','Concordia Sonorum','Album · 2025 · 11 Tracks')}
+      ${folderItem('release-rescued','<img src="artists/lilsaintdenzel/artwork/eps/rescued.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#1a1206','#2a1e08','Rescued: The Hundred','EP · 2026 · 5 Tracks')}
+      ${folderItem('release-thereturn','<img src="artists/lilsaintdenzel/artwork/eps/thereturn.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0e0e','#1a1a1a','The Return','EP · 2025 · 6 Tracks')}
+      ${folderItem('release-solas','<img src="artists/lilsaintdenzel/artwork/eps/solas.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#1a0e06','#2a1808','SOLAS','EP · 2025 · 5 Tracks')}
+      ${folderItem('release-est1995','<img src="artists/lilsaintdenzel/artwork/albums/est1995.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0a12','#1a1428','EST. 1995','Album · 2025')}
+      ${folderItem('release-heartware','<img src="artists/lilsaintdenzel/artwork/albums/heartware.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0e0a14','#1e0a1a','HeartWare','Album · 2025 · 13 Tracks')}
+      ${folderItem('release-goodfriday','<img src="artists/lilsaintdenzel/artwork/eps/goodfriday.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#120808','#0a0408','Good Friday EP','EP · 2024 · 5 Tracks')}
+      ${folderItem('release-darkclouds','<img src="artists/lilsaintdenzel/artwork/albums/darkclouds.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080c14','#0a1020','Dark Clouds Deep Mercy','Album · 2024')}
+      ${folderItem('release-imagodei','<img src="artists/lilsaintdenzel/artwork/albums/imagodei.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#0a0a08','#1a1a10','Imago Dei','Album · 2024')}
+      ${folderItem('release-euangelion','<img src="artists/lilsaintdenzel/artwork/albums/euangelion.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#080a10','#10141e','Euangelion','Album · 2024')}
+      ${folderItem('release-pantasynergy','<img src="artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg" style="width:36px;height:36px;object-fit:cover;border-radius:3px;">','#060e08','#0e1e10','PantaSynergy','Album · 2023')}
     </div>
   </div>
 </div>`;

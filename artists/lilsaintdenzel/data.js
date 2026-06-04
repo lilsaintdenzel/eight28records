@@ -29,6 +29,7 @@ const RELEASES = {
     type:'ALBUM', meta:'Eight28 Records · 2025 · 11 Tracks',
     spotifyId:'7psLFRAt2V5zunuvs3W6Wg',
     coverBg:'linear-gradient(135deg,#0d0a06,#1a1408)',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/concordia.jpg',
     tracks:[
       {n:'Skopos',album:'Concordia Sonorum',dur:'3:42'},
       {n:'Ahavah',album:'Concordia Sonorum',dur:'4:15'},
@@ -48,6 +49,7 @@ const RELEASES = {
     name:'Good Friday EP', icon:'✝',
     type:'EP', meta:'Eight28 Records · 2024 · 5 Tracks',
     coverBg:'linear-gradient(135deg,#120808,#0a0408)',
+    coverImg:'artists/lilsaintdenzel/artwork/eps/goodfriday.jpg',
     tracks:[
       {n:'Crown Of Thorns',album:'Good Friday EP',dur:'4:12'},
       {n:'Sunday Is Coming',album:'Good Friday EP',dur:'3:48'},
@@ -61,6 +63,7 @@ const RELEASES = {
     name:'Rescued: The Hundred', icon:'💯',
     type:'EP', meta:'Eight28 Records · 2026 · 5 Tracks',
     coverBg:'linear-gradient(135deg,#1a1206,#2a1e08)',
+    coverImg:'artists/lilsaintdenzel/artwork/eps/rescued.jpg',
     tracks:[
       {n:'One Left',album:'Rescued: The Hundred',dur:'1:36'},
       {n:'Hounds',album:'Rescued: The Hundred',dur:'1:46'},
@@ -74,6 +77,7 @@ const RELEASES = {
     name:'The Return', icon:'↩',
     type:'EP', meta:'Eight28 Records · 2025 · 6 Tracks',
     coverBg:'linear-gradient(135deg,#0e0e0e,#1a1a1a)',
+    coverImg:'artists/lilsaintdenzel/artwork/eps/thereturn.jpg',
     tracks:[
       {n:'Eden',album:'The Return',dur:'2:48'},
       {n:'Pneuma',album:'The Return',dur:'2:20'},
@@ -88,6 +92,7 @@ const RELEASES = {
     name:'SOLAS', icon:'✠',
     type:'EP', meta:'Eight28 Records · 2025 · 5 Tracks',
     coverBg:'linear-gradient(135deg,#1a0e06,#2a1808)',
+    coverImg:'artists/lilsaintdenzel/artwork/eps/solas.jpg',
     tracks:[
       {n:'Sola Scriptura',album:'SOLAS',dur:'2:52'},
       {n:'Sola Fide',album:'SOLAS',dur:'2:57'},
@@ -101,6 +106,7 @@ const RELEASES = {
     name:'EST. 1995', icon:'9̶5',
     type:'ALBUM', meta:'Eight28 Records · 2025',
     coverBg:'linear-gradient(135deg,#0a0a12,#1a1428)',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/est1995.jpg',
     tracks:[]
   },
   heartware:{
@@ -108,7 +114,7 @@ const RELEASES = {
     name:'HeartWare', icon:'♥',
     type:'ALBUM', meta:'Eight28 Records · 2025 · 13 Tracks',
     coverBg:'linear-gradient(135deg,#0e0a14,#1e0a1a)',
-    coverImg:'artists/lilsaintdenzel/artwork/heartware.jpg',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/heartware.jpg',
     tracks:[]
   },
   darkclouds:{
@@ -116,6 +122,7 @@ const RELEASES = {
     name:'Dark Clouds Deep Mercy', icon:'☁',
     type:'ALBUM', meta:'Eight28 Records · 2024',
     coverBg:'linear-gradient(135deg,#080c14,#0a1020)',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/darkclouds.jpg',
     tracks:[]
   },
   imagodei:{
@@ -123,7 +130,7 @@ const RELEASES = {
     name:'Imago Dei', icon:'✦',
     type:'ALBUM', meta:'Eight28 Records · 2024',
     coverBg:'linear-gradient(135deg,#0a0a08,#1a1a10)',
-    coverImg:'artists/lilsaintdenzel/artwork/imagodei.jpg',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/imagodei.jpg',
     tracks:[]
   },
   euangelion:{
@@ -131,7 +138,7 @@ const RELEASES = {
     name:'Euangelion', icon:'☩',
     type:'ALBUM', meta:'Eight28 Records · 2024',
     coverBg:'linear-gradient(135deg,#080a10,#10141e)',
-    coverImg:'artists/lilsaintdenzel/artwork/euangelion.jpg',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/euangelion.jpg',
     tracks:[]
   },
   pantasynergy:{
@@ -139,7 +146,7 @@ const RELEASES = {
     name:'PantaSynergy', icon:'∞',
     type:'ALBUM', meta:'Eight28 Records · 2023',
     coverBg:'linear-gradient(135deg,#060e08,#0e1e10)',
-    coverImg:'artists/lilsaintdenzel/artwork/pantasynergy.jpg',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg',
     tracks:[]
   }
 };
@@ -151,6 +158,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#06080e,#0d1420,#08100a)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(200,164,74,0.22),transparent 65%)',
     heroArt:'𝄞',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/concordia.jpg',
     narrative:'Concordia Sonorum, Latin for "harmony of sounds", is the debut full-length record from LilSaintDenzel under Eight28 Records. It is not merely an album. It is a sonic theology: eleven movements through the Hebrew and Greek words that form the architecture of the ATWT828 faith.',
     body:'Written, produced, and recorded in England, the album traces the journey of a believer who has decided to trust the Romans 8:28 mandate completely. Each track is named after a word from scripture - Hebrew, Greek, or Aramaic - that captures a distinct posture of faith. Together they form a single, unified declaration: all things are working together for good.',
     verse:{text:'"And we know that in all things God works for the good of those who love him, who have been called according to his purpose."',ref:'Romans 8:28'},
@@ -175,6 +183,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#060408,#100810,#08040a)',
     heroGlow:'radial-gradient(ellipse 65% 70% at 50% 40%,rgba(200,164,74,0.18),transparent 60%)',
     heroArt:'✝',
+    heroImg:'artists/lilsaintdenzel/artwork/eps/goodfriday.jpg',
     narrative:'The Good Friday EP is a five-track devotional released in the season of Holy Week. It is not a commercial project. It is an act of worship - a sonic Stations of the Cross, beginning at the foot of Golgotha and ending in the light of an empty tomb.',
     body:'Each track was written and produced in a single creative week, guided by the liturgical calendar and the weight of what Good Friday means - not as a religious holiday but as the moment everything changed. The EP does not resolve immediately. It sits in the tension of Saturday - the day between death and resurrection - before arriving at its answer.',
     verse:{text:'"For I delivered to you as of first importance what I also received: that Christ died for our sins in accordance with the Scriptures."',ref:'1 Corinthians 15:3'},
@@ -193,6 +202,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#0e0a04,#1c1408,#100c06)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(180,140,40,0.22),transparent 65%)',
     heroArt:'💯',
+    heroImg:'artists/lilsaintdenzel/artwork/eps/rescued.jpg',
     narrative:'Rescued: The Hundred is a five-track EP built on the parable of the lost sheep - the one who leaves the ninety-nine to find the single lost one. It is a record about the extravagance of divine pursuit.',
     body:'Released January 2026 under Eight28 Records, The Hundred asks a simple, devastating question: what if you were the one? Each track follows the arc of being found - the search, the recognition, the voice, the return, and the embrace.',
     verse:{text:'"What do you think? If a man owns a hundred sheep, and one of them wanders away, will he not leave the ninety-nine on the hills and go to look for the one that wandered off?"',ref:'Matthew 18:12'},
@@ -211,6 +221,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#080808,#141414,#0c0c0c)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(220,220,220,0.1),transparent 65%)',
     heroArt:'↩',
+    heroImg:'artists/lilsaintdenzel/artwork/eps/thereturn.jpg',
     narrative:'The Return is a six-track EP about coming back - to God, to self, to purpose. Released October 2025, each track is named after a Hebrew or Greek word that captures a posture of homecoming.',
     body:'Written and produced under Eight28 Records, The Return does not romanticise the journey back. It sits honestly in the disorientation of return - the guilt, the wonder, the stillness, and the new beginning. Six tracks, 14 minutes, one direction.',
     verse:{text:'"Return to me, and I will return to you, says the Lord Almighty."',ref:'Malachi 3:7'},
@@ -230,6 +241,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#0e0806,#1c1208,#120e06)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(180,120,40,0.2),transparent 65%)',
     heroArt:'✠',
+    heroImg:'artists/lilsaintdenzel/artwork/eps/solas.jpg',
     narrative:'SOLAS is a five-track EP built on the Five Solas of the Reformation - the five Latin phrases that captured what the Reformers believed the Gospel to be at its core. Each track is one Sola.',
     body:'Released July 2025, SOLAS is one of the most theologically precise projects under Eight28 Records. Five tracks, five convictions: Scripture alone, Faith alone, Grace alone, Christ alone, Glory to God alone. Each one examined sonically - not as doctrine to be recited but as lived reality.',
     verse:{text:'"For it is by grace you have been saved, through faith - and this is not from yourselves, it is the gift of God."',ref:'Ephesians 2:8'},
@@ -248,6 +260,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#06060e,#0e0c1c,#080a14)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(100,80,200,0.2),transparent 65%)',
     heroArt:'9̶5',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/est1995.jpg',
     narrative:'EST. 1995 is a personal record - a sonic document of origin. The title marks the year of birth and the questions that come with it: what were you made for, and are you living it?',
     body:'Written and produced under Eight28 Records, EST. 1995 confronts identity, calling, and the weight of becoming. It is not nostalgia. It is a reckoning with the beginning so the present makes sense.',
     verse:{text:'"Before I formed you in the womb I knew you, before you were born I set you apart."',ref:'Jeremiah 1:5'},
@@ -260,7 +273,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#0e0810,#1c0c1a,#0e0814)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(180,60,120,0.2),transparent 65%)',
     heroArt:'♥',
-    heroImg:'artists/lilsaintdenzel/artwork/heartware.jpg',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/heartware.jpg',
     narrative:'HeartWare is a 13-track exploration of the interior life - the software of the soul. Named for the idea that what runs the heart determines everything that follows.',
     body:'Released April 2025 under Eight28 Records, HeartWare examines what occupies the inner space: faith, fear, love, grief, desire, and surrender. Thirteen movements through the architecture of the human heart, submitted to the Romans 8:28 mandate.',
     verse:{text:'"Keep your heart with all vigilance, for from it flow the springs of life."',ref:'Proverbs 4:23'},
@@ -273,6 +286,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#060810,#0a0e1e,#060c16)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(40,80,160,0.2),transparent 65%)',
     heroArt:'☁',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/darkclouds.jpg',
     narrative:'Dark Clouds Deep Mercy sits in the tension between suffering and sovereignty. The title holds the paradox: the clouds are real, and so is the mercy beneath them.',
     body:'A 2024 record that refuses easy resolution. Each track is written from inside the storm - not from the other side of it. The promise of Romans 8:28 is claimed not as a conclusion but as an anchor held in the dark.',
     verse:{text:'"Though he slay me, yet will I hope in him."',ref:'Job 13:15'},
@@ -285,7 +299,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#080a08,#141a10,#0c1208)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(80,160,80,0.18),transparent 65%)',
     heroArt:'✦',
-    heroImg:'artists/lilsaintdenzel/artwork/imagodei.jpg',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/imagodei.jpg',
     narrative:'Imago Dei, the image of God. A 2024 record built on a single theological conviction: every human being carries the imprint of the divine, and that changes everything.',
     body:'Written and produced under Eight28 Records, Imago Dei explores what it means to be made in the image of God in a world that frequently contradicts that reality. The production reflects dignity - unhurried, considered, layered with intention.',
     verse:{text:'"So God created mankind in his own image, in the image of God he created them."',ref:'Genesis 1:27'},
@@ -298,7 +312,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#06080e,#0c1018,#080c14)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(60,120,200,0.2),transparent 65%)',
     heroArt:'☩',
-    heroImg:'artists/lilsaintdenzel/artwork/euangelion.jpg',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/euangelion.jpg',
     narrative:'Euangelion, the Greek word for Gospel, meaning "good news." A 2024 record that returns to the original announcement: something has happened that changes the terms of existence.',
     body:'Not a religious project in the institutional sense. Euangelion is a sonic re-proclamation of the most significant event in history - and what it demands of those who believe it. Produced under Eight28 Records.',
     verse:{text:'"For I am not ashamed of the gospel, because it is the power of God that brings salvation to everyone who believes."',ref:'Romans 1:16'},
@@ -311,7 +325,7 @@ const STORIES = {
     heroBg:'linear-gradient(135deg,#060e06,#0c1a0c,#081208)',
     heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(60,180,80,0.18),transparent 65%)',
     heroArt:'∞',
-    heroImg:'artists/lilsaintdenzel/artwork/pantasynergy.jpg',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/pantasynergy.jpg',
     narrative:'PantaSynergy is the debut record - the opening statement. The title combines the Greek "panta" (all things) with synergy: the idea that all things working together produce something greater than their sum.',
     body:'LilSaintDenzel\'s first full project under Eight28 Records, PantaSynergy establishes the theological and sonic foundation of everything that follows. It is a declaration of the ATWT828 mandate in its most elemental form: all things, without exception, are working together.',
     verse:{text:'"And we know that in all things God works for the good of those who love him, who have been called according to his purpose."',ref:'Romans 8:28'},
