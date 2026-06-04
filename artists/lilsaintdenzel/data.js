@@ -13,7 +13,7 @@ const ARTISTS = {
     details:[
       {i:'📍',t:'England, UK'}
     ],
-    releases:['concordia','rescued','thereturn','solas','est1995','heartware','goodfriday','darkclouds','imagodei','euangelion','pantasynergy'],
+    releases:['concordia','rescued','thereturn','solas','est1995','heartware','goodfriday','darkclouds','casefilemoshia','imagodei','euangelion','pantasynergy'],
     links:[
       {i:'🌐',n:'Personal Site',u:'lilsaintdenzel.com'},
       {i:'🛍',n:'Store Hub',u:'eight28.store'},
@@ -124,6 +124,27 @@ const RELEASES = {
     coverBg:'linear-gradient(135deg,#080c14,#0a1020)',
     coverImg:'artists/lilsaintdenzel/artwork/albums/darkclouds.jpg',
     tracks:[]
+  },
+  casefilemoshia:{
+    id:'casefilemoshia', artistId:'lsd',
+    name:'Case File: Moshia', icon:'📁',
+    type:'ALBUM', meta:'Eight28 Records · 2024',
+    coverBg:'linear-gradient(135deg,#0a0602,#1a0e06)',
+    coverImg:'artists/lilsaintdenzel/artwork/albums/casefile-moshia.jpg',
+    tracks:[
+      {n:'Case Opened',album:'Case File: Moshia',dur:''},
+      {n:'The Accused',album:'Case File: Moshia',dur:''},
+      {n:'Martyria',album:'Case File: Moshia',dur:''},
+      {n:'Malkuth Files',album:'Case File: Moshia',dur:''},
+      {n:'Moshiach',album:'Case File: Moshia',dur:''},
+      {n:'Cross Examined',album:'Case File: Moshia',dur:''},
+      {n:'Pilate Rift',album:'Case File: Moshia',dur:''},
+      {n:'Sin Transfer',album:'Case File: Moshia',dur:''},
+      {n:'Agape Cruciformis',album:'Case File: Moshia',dur:''},
+      {n:'Gelulah',album:'Case File: Moshia',dur:''},
+      {n:'Diatheke',album:'Case File: Moshia',dur:''},
+      {n:'Case Closed',album:'Case File: Moshia',dur:''},
+    ]
   },
   imagodei:{
     id:'imagodei', artistId:'lsd',
@@ -291,6 +312,32 @@ const STORIES = {
     body:'A 2024 record that refuses easy resolution. Each track is written from inside the storm - not from the other side of it. The promise of Romans 8:28 is claimed not as a conclusion but as an anchor held in the dark.',
     verse:{text:'"Though he slay me, yet will I hope in him."',ref:'Job 13:15'},
     tracks:[],
+    credits:[{role:'Artist',name:'LilSaintDenzel'},{role:'Production',name:'LilSaintDenzel'},{role:'Label',name:'Eight28 Records'},{role:'Year',name:'2024'}]
+  },
+  casefilemoshia:{
+    title:'Case File: Moshia', type:'ALBUM · 2024',
+    meta:'Eight28 Records · 12 Tracks · LilSaintDenzel',
+    heroBg:'linear-gradient(135deg,#0a0602,#1c1006,#120a04)',
+    heroGlow:'radial-gradient(ellipse 70% 80% at 40% 50%,rgba(160,100,40,0.22),transparent 65%)',
+    heroArt:'📁',
+    heroImg:'artists/lilsaintdenzel/artwork/albums/casefile-moshia.jpg',
+    narrative:'Case File: Moshia frames the life, trial, and redemption of Jesus of Nazareth as a legal dossier. Moshia - Hebrew for Saviour, Deliverer. The file has been opened. The evidence is in.',
+    body:'A 12-track concept album structured as a criminal case file. From the opening deposition to the final verdict, Case File: Moshia examines the most contested figure in history through the lens of law, testimony, and justice. The accused is the Saviour of the World.',
+    verse:{text:'"He was pierced for our transgressions, he was crushed for our iniquities; the punishment that brought us peace was on him."',ref:'Isaiah 53:5'},
+    tracks:[
+      {num:'01',name:'Case Opened',dur:'',meaning:'The file is opened - the case begins',story:''},
+      {num:'02',name:'The Accused',dur:'',meaning:'Jesus of Nazareth - the defendant',story:''},
+      {num:'03',name:'Martyria',dur:'',meaning:'Greek - Testimony, Witness',story:''},
+      {num:'04',name:'Malkuth Files',dur:'',meaning:'Hebrew - The Kingdom Documents',story:''},
+      {num:'05',name:'Moshiach',dur:'',meaning:'Hebrew - The Anointed One, Messiah',story:''},
+      {num:'06',name:'Cross Examined',dur:'',meaning:'The trial reaches its turning point',story:''},
+      {num:'07',name:'Pilate Rift',dur:'',meaning:'The judgment that divided history',story:''},
+      {num:'08',name:'Sin Transfer',dur:'',meaning:'The legal exchange at Golgotha',story:''},
+      {num:'09',name:'Agape Cruciformis',dur:'',meaning:'Latin - Love Shaped Like a Cross',story:''},
+      {num:'10',name:'Gelulah',dur:'',meaning:'Hebrew - Redemption, Kinsman Redeemer',story:''},
+      {num:'11',name:'Diatheke',dur:'',meaning:'Greek - Covenant, Last Will and Testament',story:''},
+      {num:'12',name:'Case Closed',dur:'',meaning:'The verdict is final. It is finished.',story:''},
+    ],
     credits:[{role:'Artist',name:'LilSaintDenzel'},{role:'Production',name:'LilSaintDenzel'},{role:'Label',name:'Eight28 Records'},{role:'Year',name:'2024'}]
   },
   imagodei:{
