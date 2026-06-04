@@ -129,6 +129,7 @@ const RELEASES = {
     name:'Euangelion', icon:'☩',
     type:'ALBUM', meta:'Eight28 Records · 2024',
     coverBg:'linear-gradient(135deg,#080a10,#10141e)',
+    coverImg:'artists/lilsaintdenzel/artwork/euangelion.jpg',
     tracks:[]
   },
   pantasynergy:{

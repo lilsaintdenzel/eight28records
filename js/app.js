@@ -266,9 +266,16 @@ function viewRelease(id) {
   <div style="padding:16px 18px;border-bottom:1px solid var(--div);">
     <iframe style="border-radius:12px" src="https://open.spotify.com/embed/album/${r.spotifyId}?utm_source=generator&theme=0" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
   </div>` : '';
+  const heroBgStyle = r.coverImg
+    ? `background:${r.coverBg};`
+    : `background:${r.coverBg};`;
+  const coverImgHTML = r.coverImg
+    ? `<div class="av-hero-img" style="position:absolute;inset:0;overflow:hidden;"><img src="${r.coverImg}" alt="${r.name}" style="width:100%;height:100%;object-fit:cover;opacity:0.55;"></div>`
+    : '';
   return `<div>
   <div class="av-hero">
-    <div class="av-hero-bg" style="background:${r.coverBg};"></div>
+    <div class="av-hero-bg" style="${heroBgStyle}"></div>
+    ${coverImgHTML}
     <div class="av-hero-glow" style="background:radial-gradient(ellipse 60% 70% at 50% 50%,rgba(200,164,74,0.2),transparent 65%);"></div>
     <div class="av-hero-info">
       <div class="av-badge">${r.type} · EIGHT28 RECORDS</div>
