@@ -103,7 +103,7 @@ function renderSidebar() {
     ${sbItem('release-rescued',   img('artists/lilsaintdenzel/artwork/eps/rescued.jpg'),   'Rescued: The Hundred')}
     ${sbItem('release-thereturn', img('artists/lilsaintdenzel/artwork/eps/thereturn.jpg'), 'The Return')}
     ${sbItem('release-solas',     img('artists/lilsaintdenzel/artwork/eps/solas.jpg'),     'SOLAS')}
-    ${sbItem('release-goodfriday',img('artists/lilsaintdenzel/artwork/eps/goodfriday.jpg'),'Good Friday EP')}
+    ${sbItem('release-goodfriday',img('artists/lilsaintdenzel/artwork/eps/goodfriday.jpg'),'Good Friday')}
     `}
   `;
 }
