@@ -214,7 +214,7 @@ function viewFolderReleasesEPs() {
       ${folderItem('release-rescued',   art('rescued.jpg'),   '#1a1206','#2a1e08','Rescued: The Hundred','EP · 2026 · 5 Tracks')}
       ${folderItem('release-thereturn', art('thereturn.jpg'), '#0e0e0e','#1a1a1a','The Return',          'EP · 2025 · 6 Tracks')}
       ${folderItem('release-solas',     art('solas.jpg'),     '#1a0e06','#2a1808','SOLAS',               'EP · 2025 · 5 Tracks')}
-      ${folderItem('release-goodfriday',art('goodfriday.jpg'),'#120808','#0a0408','Good Friday EP',      'EP · 2024 · 5 Tracks')}
+      ${folderItem('release-goodfriday',art('goodfriday.jpg'),'#120808','#0a0408','Good Friday',         'EP · 2024 · 5 Tracks')}
     </div>
   </div>
 </div>`;
