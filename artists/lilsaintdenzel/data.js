@@ -46,16 +46,16 @@ const RELEASES = {
   },
   goodfriday:{
     id:'goodfriday', artistId:'lsd',
-    name:'Good Friday EP', icon:'✝',
+    name:'Good Friday', icon:'✝',
     type:'EP', meta:'Eight28 Records · 2024 · 5 Tracks',
     coverBg:'linear-gradient(135deg,#120808,#0a0408)',
     coverImg:'artists/lilsaintdenzel/artwork/eps/goodfriday.jpg',
     tracks:[
-      {n:'Crown Of Thorns',album:'Good Friday EP',dur:'4:12'},
-      {n:'Sunday Is Coming',album:'Good Friday EP',dur:'3:48'},
-      {n:'Christos Anesti',album:'Good Friday EP',dur:'4:55'},
-      {n:'Kavod',album:'Good Friday EP',dur:'3:30'},
-      {n:'Psalm 30:5',album:'Good Friday EP',dur:'4:20'},
+      {n:'Crown Of Thorns',album:'Good Friday',dur:'4:12'},
+      {n:'Sunday Is Coming',album:'Good Friday',dur:'3:48'},
+      {n:'Christos Anesti',album:'Good Friday',dur:'4:55'},
+      {n:'Kavod',album:'Good Friday',dur:'3:30'},
+      {n:'Psalm 30:5',album:'Good Friday',dur:'4:20'},
     ]
   },
   rescued:{
@@ -199,13 +199,13 @@ const STORIES = {
     credits:[{role:'Artist',name:'LilSaintDenzel'},{role:'Production',name:'LilSaintDenzel'},{role:'Label',name:'Eight28 Records'},{role:'Philosophy',name:'ATWT828'},{role:'Year',name:'2025'}]
   },
   goodfriday:{
-    title:'Good Friday EP', type:'EP · 2024',
+    title:'Good Friday', type:'EP · 2024',
     meta:'Eight28 Records · 5 Tracks · LilSaintDenzel',
     heroBg:'linear-gradient(135deg,#060408,#100810,#08040a)',
     heroGlow:'radial-gradient(ellipse 65% 70% at 50% 40%,rgba(200,164,74,0.18),transparent 60%)',
     heroArt:'✝',
     heroImg:'artists/lilsaintdenzel/artwork/eps/goodfriday.jpg',
-    narrative:'The Good Friday EP is a five-track devotional released in the season of Holy Week. It is not a commercial project. It is an act of worship - a sonic Stations of the Cross, beginning at the foot of Golgotha and ending in the light of an empty tomb.',
+    narrative:'Good Friday is a five-track devotional released in the season of Holy Week. It is not a commercial project. It is an act of worship - a sonic Stations of the Cross, beginning at the foot of Golgotha and ending in the light of an empty tomb.',
     body:'Each track was written and produced in a single creative week, guided by the liturgical calendar and the weight of what Good Friday means - not as a religious holiday but as the moment everything changed. The EP does not resolve immediately. It sits in the tension of Saturday - the day between death and resurrection - before arriving at its answer.',
     verse:{text:'"For I delivered to you as of first importance what I also received: that Christ died for our sins in accordance with the Scriptures."',ref:'1 Corinthians 15:3'},
     tracks:[
